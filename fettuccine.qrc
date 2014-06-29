@@ -1,0 +1,18 @@
+<RCC>
+    <qresource prefix="/">
+        <file>icons/FetCloseUI48.png</file>
+        <file>icons/FetNext48.png</file>
+        <file>icons/FetOpenUI48.png</file>
+        <file>icons/FetPrev48.png</file>
+        <file>icons/FetHome48.png</file>
+        <file>icons/FetTag48.png</file>
+        <file>icons/FetCloseUI.svg</file>
+        <file>icons/FetHome.svg</file>
+        <file>icons/FetNext.svg</file>
+        <file>icons/FetOpenUI.svg</file>
+        <file>icons/FetPrev.svg</file>
+        <file>icons/FetTag.svg</file>
+        <file>doc/about.html</file>
+        <file>doc/documentation.html</file>
+    </qresource>
+</RCC>
