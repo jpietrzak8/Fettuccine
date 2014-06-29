@@ -61,7 +61,10 @@ OTHER_FILES += \
     qtc_packaging/debian_fremantle/copyright \
     qtc_packaging/debian_fremantle/control \
     qtc_packaging/debian_fremantle/compat \
-    qtc_packaging/debian_fremantle/changelog
+    qtc_packaging/debian_fremantle/changelog \
+    README.md \
+    COPYING \
+    LICENSE.md
 
 RESOURCES += \
     fettuccine.qrc
