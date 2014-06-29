@@ -64,7 +64,8 @@ OTHER_FILES += \
     qtc_packaging/debian_fremantle/changelog \
     README.md \
     COPYING \
-    LICENSE.md
+    LICENSE.md \
+    fettuccine.xml
 
 RESOURCES += \
     fettuccine.qrc
