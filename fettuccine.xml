@@ -11,7 +11,7 @@
   link="http://cmhimg01.dot.state.oh.us/images/dayton/I-75_at_US-35.jpg"
   homepage="http://www.dot.state.oh.us/districts/D07/TrafficCameras/Pages/I75US35.aspx"
   refreshRate="5">
-  <name>I-75 at US-35, Ohio</name>
+  <name>Dayton, Ohio, I-75 at US-35</name>
   <tag>Traffic</tag>
  </webcam>
 
@@ -20,7 +20,7 @@
   homepage="http://hvo.wr.usgs.gov/cams/panorama.php?cam=HTcam"
   refreshRate="30">
   <name>Kilauea Crater Thermal Image</name>
-  <tag>Volcanoes</tag>
+  <tag>Volcano</tag>
  </webcam>
 
  <webcam
@@ -28,7 +28,8 @@
   homepage="http://borealisbroadband.net/vid-hilton1.htm"
   refreshRate="60">
   <name>Mt. Susitna, Anchorage, Alaska</name>
-  <tag>Mountains</tag>
+  <tag>Mountain</tag>
+  <tag>Ocean</tag>
  </webcam>
 
  <webcam
@@ -36,7 +37,7 @@
   homepage="http://www.frs.de/nc/en/frs-webcams/tangier-morocco.html"
   refreshRate="30">
   <name>Tangier Port, Spain</name>
-  <tag>Oceans</tag>
+  <tag>Ocean</tag>
  </webcam>
 
  <webcam
@@ -44,7 +45,8 @@
   homepage="http://icons.wunderground.com/webcamramdisk/z/a/zafer/1/current.jpg"
   refreshRate="30">
   <name>Bosphorus Bridge, Istanbul, Turkey</name>
-  <tag>Rivers</tag>
+  <tag>River</tag>
+  <tag>Traffic</tag>
  </webcam>
 
  <webcam
@@ -52,8 +54,8 @@
   homepage="http://www.pref.shizuoka.jp/~live/english/gotenba/index.html"
   refreshRate="60">
   <name>Mt. Fuji, Shizuoka Prefecture</name>
-  <tag>Volcanoes</tag>
-  <tag>Mountains</tag>
+  <tag>Volcano</tag>
+  <tag>Mountain</tag>
  </webcam>
 
  <webcam
@@ -61,7 +63,7 @@
   homepage="http://www.webcamsdemexico.com/webcam-mexico-reforma-angel.html"
   refreshRate="15">
   <name>Paseo de la Reforma, Mexico City</name>
-  <tag>Cities</tag>
+  <tag>City</tag>
  </webcam>
 
  <webcam
@@ -69,7 +71,7 @@
   homepage="http://www.rosebay.tased.edu.au/camera.htm"
   refreshRate="60">
   <name>Rose Bay HS, Tasmania, Australia</name>
-  <tag>Rivers</tag>
+  <tag>River</tag>
  </webcam>
 
  <webcam
@@ -90,8 +92,8 @@
   link="http://85.157.217.2/-wvhttp-01-/GetStillImage"
   homepage="http://www.portofkokkola.fi/media/web-kamerat/syvasataman-webcam/"
   refreshRate="10">
-  <name>Port of Kokkola, Finland</name>
-  <tag>Oceans</tag>
+  <name>Kokkola port, Finland</name>
+  <tag>Ocean</tag>
  </webcam>
 
  <webcam
@@ -99,7 +101,7 @@
   homepage="http://www.farsondigitalwatercams.com/live-webcams/ireland/Nore/Thomastown/"
   refreshRate="5">
   <name>River Nore at Thomastown, Ireland</name>
-  <tag>Rivers</tag>
+  <tag>River</tag>
  </webcam>
 
  <webcam
@@ -107,7 +109,7 @@
   homepage="http://www.finanzen.de/webcam"
   refreshRate="5">
   <name>Oberbaumbrücke, Berlin</name>
-  <tag>Rivers</tag>
+  <tag>River</tag>
  </webcam>
 
  <webcam
@@ -115,7 +117,7 @@
   homepage="http://www.hotelulisse.com/webcam.htm"
   refreshRate="180">
   <name>Castello Aragonese, Campania, Italy</name>
-  <tag>Oceans</tag>
+  <tag>Ocean</tag>
  </webcam>
 
  <webcam
@@ -123,7 +125,7 @@
   homepage="http://forkswa.com/"
   refreshRate="10">
   <name>James Island, Washington</name>
-  <tag>Oceans</tag>
+  <tag>Ocean</tag>
  </webcam>
 
  <webcam
@@ -131,7 +133,7 @@
   homepage="http://www.hko.gov.hk/wxinfo/ts/webcam/CCH_e_realtime.htm"
   refreshRate="300">
   <name>Cheung Chau, Hong Kong Observatory</name>
-  <tag>Oceans</tag>
+  <tag>Ocean</tag>
  </webcam>
 
  <webcam
@@ -139,7 +141,7 @@
   homepage="http://asakusa.kanx.biz/?ad=kani"
   refreshRate="300">
   <name>Tokyo Sky Tree</name>
-  <tag>Cities</tag>
+  <tag>City</tag>
  </webcam>
 
  <webcam
@@ -147,7 +149,7 @@
   homepage="http://115.182.35.122/hbycqjhlwlzls/file.jpg"
   refreshRate="5">
   <name>Qingjiang River, China</name>
-  <tag>Rivers</tag>
+  <tag>River</tag>
  </webcam>
 
  <webcam
@@ -162,14 +164,17 @@
   link="http://webcam.abhazia.com/cam/gagra/1/video.php"
   homepage="http://webcam.abhazia.com/"
   refreshRate="60">
-  <name>Beachfront View, Abhazia</name>
+  <name>Abhazia beachfront view</name>
+  <tag>Beach</tag>
+  <tag>Ocean</tag>
  </webcam>
 
  <webcam
   link="http://webkamera.vegvesen.no/kamera?id=100094"
   homepage="http://www.vegvesen.no/Trafikkinformasjon/Reiseinformasjon/Trafikkmeldinger/Webkamera?kamera=100094&amp;zoom=8"
   refreshRate="3600">
-  <name>Route E39, Norway</name>
+  <name>Norway Route E39</name>
+  <tag>Traffic</tag>
  </webcam>
 
  <webcam
@@ -177,20 +182,23 @@
   homepage="http://www.ovsicori.una.ac.cr/index.php?option=com_content&amp;view=article&amp;id=43&amp;Itemid=74"
   refreshRate="10">
   <name>Turrialba Volcano, Costa Rica</name>
+  <tag>Mountain</tag>
+  <tag>Volcano</tag>
  </webcam>
 
  <webcam
   link="http://www.goes.noaa.gov/GIFS/ECI5.JPG"
   homepage="http://www.goes.noaa.gov/ECIR1.html"
   refreshRate="1800">
-  <name>Color-Enhanced IR Satellite View of US East Coast</name>
+  <name>US East Coast, Color-Enhanced IR Satellite View</name>
+  <tag>Weather</tag>
  </webcam>
 
  <webcam
   link="http://www.ntv.ca/cams/skycam1.jpg"
   homepage="http://ntv.ca/"
   refreshRate="10">
-  <name>Harbor of St. John's, Newfoundland</name>
+  <name>St. John's Harbor, Newfoundland</name>
  </webcam>
 
  <webcam
@@ -205,41 +213,47 @@
   homepage="http://webcam.oregonstate.edu/oceanus/"
   refreshRate="180">
   <name>Oceanus Research Vessel, Oregon State University</name>
+  <tag>Ocean</tag>
  </webcam>
 
  <webcam
   link="http://www.madeira-web.com/camera/preset-05/fullsize.jpg"
   homepage="http://www.madeira-web.com/camera/cam-05.html"
   refreshRate="300">
-  <name>Harbor of Funchal, Madeira</name>
+  <name>Funchal Harbor, Madeira</name>
+  <tag>Ocean</tag>
  </webcam>
 
  <webcam
   link="http://www.goes.noaa.gov/FULLDISK/MTIR.JPG"
   homepage="http://www.goes.noaa.gov/ataglance.html#GOESFD"
   refreshRate="3600">
-  <name>IR Satellite View of Western Pacific Ocean</name>
+  <name>Western Pacific Ocean IR Satellite View</name>
+  <tag>Weather</tag>
  </webcam>
 
  <webcam
   link="http://www.goes.noaa.gov/FULLDISK/GIIR.JPG"
   homepage="http://www.goes.noaa.gov/ataglance.html#GOESFD"
   refreshRate="21600">
-  <name>IR Satellite View of Indian Ocean</name>
+  <name>Indian Ocean IR Satellite View</name>
+  <tag>Weather</tag>
  </webcam>
 
  <webcam
   link="http://www.nps.gov/webcams-yell/washburn2.jpg"
   homepage="http://www.nps.gov/yell/photosmultimedia/webcams.htm"
   refreshRate="60">
-  <name>Mount Washburn South, Yellowstone</name>
+  <name>Mt. Washburn South, Yellowstone</name>
+  <tag>Mountain</tag>
  </webcam>
 
  <webcam
   link="http://www.star.nesdis.noaa.gov/smcd/opdb/aviation/realtime/ATLCVIS.GIF"
   homepage="http://www.star.nesdis.noaa.gov/smcd/opdb/aviation/imgs.html"
   refreshRate="3600">
-  <name>Visible Light Satellite View of Atlantic Basin</name>
+  <name>Atlantic Basin Visible Light Satellite View</name>
+  <tag>Weather</tag>
  </webcam>
 
  <webcam
@@ -261,6 +275,8 @@
   homepage="http://www.radiostudio7.it/"
   refreshRate="60">
   <name>Mt. Etna, Sicily</name>
+  <tag>Mountain</tag>
+  <tag>Volcano</tag>
  </webcam>
 
  <webcam
@@ -268,13 +284,14 @@
   homepage="http://www.madeira-web.com/camera/cam-01.html"
   refreshRate="300">
   <name>Funchal sea front, Madeira</name>
+  <tag>Ocean</tag>
  </webcam>
 
  <webcam
   link="http://caymanchillin.com/caymanchillin-live11.jpg"
   homepage="http://caymanchillin.com/caymanchillin-live.htm"
   refreshRate="180">
-  <name>Seaside view, Cayman Islands</name>
+  <name>Cayman Islands seaside view</name>
  </webcam>
 
  <webcam
@@ -289,7 +306,7 @@
   homepage="http://www.sizenken.biodic.go.jp/live/view.php?camera_no=58"
   refreshRate="3600">
   <name>Mt. Neko as viewed from the southern area of Mt. Aso</name>
-  <tag>Mountains</tag>
+  <tag>Mountain</tag>
  </webcam>
 
  <webcam
@@ -297,8 +314,8 @@
   homepage="http://www33.ocn.ne.jp/~kazashi/"
   refreshRate="60">
   <name>Mt. Aso, Kumamoto Prefecture, Island of Kyuushuu</name>
-  <tag>Mountains</tag>
-  <tag>Volcanoes</tag>
+  <tag>Mountain</tag>
+  <tag>Volcano</tag>
  </webcam>
 
  <webcam
@@ -306,8 +323,8 @@
   homepage="http://www.cenapred.gob.mx/popo/ImgPopoTlamacas.html"
   refreshRate="10">
   <name>Mt. Popocatépetl, view from Tlamacas, Southern Mexico</name>
-  <tag>Mountains</tag>
-  <tag>Volcanoes</tag>
+  <tag>Mountain</tag>
+  <tag>Volcano</tag>
  </webcam>
 
  <webcam
@@ -315,8 +332,8 @@
   homepage="http://www.city.tarumizu.lg.jp/"
   refreshRate="5">
   <name>Mt. Sakurajima, view from Tarumizu, Kagoshima Prefecture</name>
-  <tag>Mountains</tag>
-  <tag>Volcanoes</tag>
+  <tag>Mountain</tag>
+  <tag>Volcano</tag>
  </webcam>
 
  <webcam
@@ -324,6 +341,7 @@
   homepage="http://www.katkam.ca/"
   refreshRate="300">
   <name>Vancouver, BC view from downtown</name>
+  <tag>Ocean</tag>
  </webcam>
 
  <webcam
@@ -347,6 +365,7 @@
   homepage="http://www.jacksonholenet.com/"
   refreshRate="15">
   <name>Jackson Hole, Wyoming</name>
+  <tag>Mountain</tag>
  </webcam>
 
  <webcam
@@ -368,8 +387,8 @@
   homepage="http://www.cenapred.gob.mx/popo/UltimaImagenVolcanI.html"
   refreshRate="30">
   <name>Mt. Popocatépetl, view from Altzomoni, Southern Mexico</name>
-  <tag>Mountains</tag>
-  <tag>Volcanoes</tag>
+  <tag>Mountain</tag>
+  <tag>Volcano</tag>
  </webcam>
 
  <webcam
@@ -377,6 +396,8 @@
   homepage="http://www.webcamsdemexico.com/webcam-ixtapa.html"
   refreshRate="15">
   <name>Ixtapa Beach, Guerrero</name>
+  <tag>Beach</tag>
+  <tag>Ocean</tag>
  </webcam>
 
  <webcam
@@ -384,6 +405,8 @@
   homepage="http://www.cabovillas.com/properties.asp?PID=301&amp;source=AAC&amp;NCK=8554566700#cam"
   refreshRate="5">
   <name>Cabo San Lucas beachfront, Baha California</name>
+  <tag>Beach</tag>
+  <tag>Ocean</tag>
  </webcam>
 
  <webcam
@@ -391,8 +414,8 @@
   homepage="http://www.cenapred.gob.mx/popo/ImgPopoSur.html"
   refreshRate="5">
   <name>Mt. Popocatépetl, view from Tianguismanalco, Southern Mexico</name>
-  <tag>Mountains</tag>
-  <tag>Volcanoes</tag>
+  <tag>Mountain</tag>
+  <tag>Volcano</tag>
  </webcam>
 
  <webcam
@@ -428,6 +451,7 @@
   homepage="http://www.villavacations.net/"
   refreshRate="60">
   <name>St. Johns, US Virgin Islands</name>
+  <tag>Ocean</tag>
  </webcam>
 
 </fettuccine>
