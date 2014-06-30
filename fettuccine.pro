@@ -30,7 +30,8 @@ SOURCES += main.cpp mainwindow.cpp \
     fetcaminfodialog.cpp \
     fetmessenger.cpp \
     fetcamimage.cpp \
-    fettagdialog.cpp
+    fettagdialog.cpp \
+    fetloadfiledialog.cpp
 HEADERS += mainwindow.h \
     fetcamwidgetitem.h \
     fetcamselectordialog.h \
@@ -38,11 +39,13 @@ HEADERS += mainwindow.h \
     fetmessenger.h \
     fettargetarchitecture.h \
     fetcamimage.h \
-    fettagdialog.h
+    fettagdialog.h \
+    fetloadfiledialog.h
 FORMS += mainwindow.ui \
     fetcamselectordialog.ui \
     fetcaminfodialog.ui \
-    fettagdialog.ui
+    fettagdialog.ui \
+    fetloadfiledialog.ui
 
 # Please do not modify the following two lines. Required for deployment.
 include(deployment.pri)
@@ -64,8 +67,7 @@ OTHER_FILES += \
     qtc_packaging/debian_fremantle/changelog \
     README.md \
     COPYING \
-    LICENSE.md \
-    fettuccine.xml
+    LICENSE.md
 
 RESOURCES += \
     fettuccine.qrc

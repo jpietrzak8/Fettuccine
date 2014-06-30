@@ -79,6 +79,12 @@ void FetTagDialog::addTag(
 }
 
 
+void FetTagDialog::clearTags()
+{
+  ui->tagListWidget->clear();
+}
+
+
 void FetTagDialog::removeFilter()
 {
   currentTag.clear();

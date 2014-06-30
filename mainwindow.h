@@ -42,7 +42,7 @@ class QNetworkReply;
 class FetCamSelectorDialog;
 class FetTagDialog;
 class FetCamInfoDialog;
-class QXmlStreamReader;
+class FetLoadFileDialog;
 class FetCamWidgetItem;
 class QResizeEvent;
 
@@ -96,22 +96,6 @@ private slots:
 private:
   void returnToControls();
 
-  void parseWebcamXml(
-    QXmlStreamReader &webcamReader,
-    QList<FetCamWidgetItem *> &camList);
-
-  void parseFettuccineElement(
-    QXmlStreamReader &webcamReader,
-    QList<FetCamWidgetItem *> &camList);
-
-  void parseWebcamElement(
-    QXmlStreamReader &webcamReader,
-    FetCamWidgetItem *item);
-
-  QString parseText(
-    QXmlStreamReader &webcamReader,
-    QString elementName);
-
 #ifdef ANDROID_OS
   void resizeIcons();
 #endif // ANDROID_OS
@@ -121,6 +105,7 @@ private:
   FetCamSelectorDialog *selectorDialog;
   FetTagDialog *tagDialog;
   FetCamInfoDialog *infoDialog;
+  FetLoadFileDialog *loadFileDialog;
   FetMessenger *messenger;
 
   QNetworkAccessManager qnam;

@@ -23,8 +23,6 @@
 #include "fetcamselectordialog.h"
 #include "ui_fetcamselectordialog.h"
 
-// #include "fettargetarchitecture.h"
-#include "fetcamwidgetitem.h"
 #include <QListWidgetItem>
 #include <QRect>
 #include <QApplication>
@@ -181,7 +179,7 @@ void FetCamSelectorDialog::populateDefaultWebcams()
       "http://cmhimg01.dot.state.oh.us/images/dayton/I-75_at_US-35.jpg",
       "http://www.dot.state.oh.us/districts/D07/TrafficCameras/Pages/I75US35.aspx",
       5);
-  item->addTag("traffic");
+  item->addTag("Traffic");
   ui->webcamListWidget->addItem(item);
 
   settings.setArrayIndex(2);
@@ -210,12 +208,17 @@ void FetCamSelectorDialog::populateDefaultWebcams()
   settings.setValue("homepage",
     "http://borealisbroadband.net/vid-hilton1.htm");
   settings.setValue("refresh_rate", 60);
+  settings.beginWriteArray("tags");
+  settings.setArrayIndex(0);
+  settings.setValue("tag", "Mountains");
+  settings.endArray();
   ui->webcamListWidget->addItem(
     new FetCamWidgetItem(
       "Mt. Susitna, Anchorage, Alaska",
       "http://www.borealisbroadband.net/hilton/hilton1.jpg",
       "http://borealisbroadband.net/vid-hilton1.htm",
       60));
+  item->addTag("Mountains");
 
   settings.setArrayIndex(4);
   settings.setValue("name", "Tangier Port, Spain");
@@ -257,6 +260,20 @@ void FetCamSelectorDialog::populateDefaultWebcams()
       "http://images.intellicast.com/WxImages/RadarLoop/usa_None_anim.gif",
       "http://www.intellicast.com/National/Radar/Current.aspx",
       900));
+
+  settings.setArrayIndex(7);
+  settings.setValue("name", "Cheung Chau, Hong Kong Observatory");
+  settings.setValue("link",
+    "http://www.hko.gov.hk/wxinfo/aws/hko_mica/cch/latest_CCH.jpg");
+  settings.setValue("homepage",
+    "http://www.hko.gov.hk/wxinfo/ts/webcam/CCH_e_realtime.htm");
+  settings.setValue("refresh_rate", 300);
+  ui->webcamListWidget->addItem(
+    new FetCamWidgetItem(
+      "Cheung Chau, Hong Kong Observatory",
+      "http://www.hko.gov.hk/wxinfo/aws/hko_mica/cch/latest_CCH.jpg",
+      "http://www.hko.gov.hk/wxinfo/ts/webcam/CCH_e_realtime.htm",
+      300));
 
   settings.endArray();
   settings.sync();
@@ -401,10 +418,42 @@ FetCamWidgetItem *FetCamSelectorDialog::getCurrentItem()
 }
 
 
+void FetCamSelectorDialog::loadWebcams(
+  FetCamCollection camList)
+{
+  int size = camList.size();
+
+  // Sanity check:
+  if (size == 0) return;
+
+  // Empty out the current list:
+  clearWebcams();
+  emit clearTags();
+
+  int i = 0;
+  while (i < size)
+  {
+    insertWebcam(camList[i]);
+    ++i;
+  }
+
+  emit showWebcam(camList[0]);
+}
+
+
 void FetCamSelectorDialog::insertWebcam(
   FetCamWidgetItem *item)
 {
   ui->webcamListWidget->addItem(item);
+
+  // set up the item's tags:
+  TagCollection::const_iterator i = item->tagsBegin();
+  TagCollection::const_iterator end = item->tagsEnd();
+  while (i != end)
+  {
+    emit addNewTag(*i);
+    ++i;
+  }
 
   QSettings settings("pietrzak.org", "Fettuccine");
 
@@ -450,8 +499,14 @@ void FetCamSelectorDialog::addNewWebcam(
 void FetCamSelectorDialog::filterList(
   QString tag)
 {
-  int index = 0;
   int count = ui->webcamListWidget->count();
+  if (!count)
+  {
+    // Nothing to do here.
+    return;
+  }
+
+  int index = 0;
   FetCamWidgetItem *item;
 
   while (index < count)
@@ -470,6 +525,13 @@ void FetCamSelectorDialog::filterList(
     }
 
     ++index;
+  }
+
+  // If the list has been reset (so there is no current item), go to
+  // the first item on the list.
+  if (ui->webcamListWidget->currentRow() == -1)
+  {
+    ui->webcamListWidget->setCurrentRow(0);
   }
 
   // If the current item is now hidden, choose the next visible one:

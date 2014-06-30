@@ -26,6 +26,7 @@
 #include <QDialog>
 
 #include "fettargetarchitecture.h"
+#include "fetcamwidgetitem.h"
 
 class QListWidgetItem;
 class FetCamWidgetItem;
@@ -73,12 +74,17 @@ public slots:
     QString homepage,
     int refreshRate);
 
+  void loadWebcams(
+    FetCamCollection camList);
+
   void filterList(
     QString tag);
 
 signals:
   void addNewTag(
     QString tag);
+
+  void clearTags();
 
   void showWebcam(
     FetCamWidgetItem *);

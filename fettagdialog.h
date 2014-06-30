@@ -47,6 +47,8 @@ public slots:
   void addTag(
     QString tag);
 
+  void clearTags();
+
 signals:
   void selectByTag(
     QString);

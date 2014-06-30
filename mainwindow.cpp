@@ -27,15 +27,12 @@
 #include "fetcamselectordialog.h"
 #include "fettagdialog.h"
 #include "fetcaminfodialog.h"
+#include "fetloadfiledialog.h"
 #include "fetcamwidgetitem.h"
 #include <QTimer>
 #include <QUrl>
 #include <QNetworkReply>
-#include <QFile>
-#include <QXmlStreamReader>
-#include <QList>
 #include <QSettings>
-#include <QFileDialog>
 #include <QResizeEvent>
 #include <QDesktopServices>
 
@@ -52,12 +49,16 @@ MainWindow::MainWindow(
     selectorDialog(0),
     tagDialog(0),
     infoDialog(0),
+    loadFileDialog(0),
     messenger(0),
     timer(0),
     controlsHidden(true),
     webcamImage(0)
 {
   ui->setupUi(this);
+
+  // Just to be certain, set the stackedWidget index:
+  ui->stackedWidget->setCurrentIndex(0);
 
 #ifdef ANDROID_OS
   resizeIcons();
@@ -70,6 +71,7 @@ MainWindow::MainWindow(
   selectorDialog = new FetCamSelectorDialog(this);
   tagDialog = new FetTagDialog(this);
   infoDialog = new FetCamInfoDialog(this);
+  loadFileDialog = new FetLoadFileDialog(this);
   messenger = new FetMessenger(this);
 
   connect(
@@ -83,6 +85,12 @@ MainWindow::MainWindow(
     SIGNAL(addNewTag(QString)),
     tagDialog,
     SLOT(addTag(QString)));
+
+  connect(
+    selectorDialog,
+    SIGNAL(clearTags()),
+    tagDialog,
+    SLOT(clearTags()));
 
   connect(
     selectorDialog,
@@ -101,6 +109,18 @@ MainWindow::MainWindow(
     SIGNAL(selectByTag(QString)),
     selectorDialog,
     SLOT(filterList(QString)));
+
+  connect(
+    loadFileDialog,
+    SIGNAL(newCamList(FetCamCollection)),
+    selectorDialog,
+    SLOT(loadWebcams(FetCamCollection)));
+
+  connect(
+    loadFileDialog,
+    SIGNAL(loadFileError(QString)),
+    messenger,
+    SLOT(sendMessage(QString)));
 
   connect(
     &qnam,
@@ -142,6 +162,7 @@ MainWindow::~MainWindow()
 
   if (timer) delete timer;
   if (messenger) delete messenger;
+  if (loadFileDialog) delete loadFileDialog;
   if (infoDialog) delete infoDialog;
   if (tagDialog) delete tagDialog;
   if (selectorDialog) delete selectorDialog;
@@ -254,56 +275,7 @@ void MainWindow::on_actionWebcam_Info_triggered()
 
 void MainWindow::on_actionImport_Webcam_List_triggered()
 {
-  // Ask the user to select the xml file:
-  QString filename = QFileDialog::getOpenFileName(
-    this, "Select Webcam XML File");
-
-  if (filename.isEmpty())
-  {
-    // The user did not choose a file.
-    return;
-  }
-
-  QFile webcamFile(filename);
-
-  if (!webcamFile.open(QIODevice::ReadOnly | QIODevice::Text))
-  {
-    QString errString;
-    errString += "Unable to open ";
-    errString += filename;
-    messenger->sendMessage(errString);
-qDebug() << "Unable to open " << filename;
-    return;
-  }
-
-  QXmlStreamReader webcamReader(&webcamFile);
-
-  QList<FetCamWidgetItem *> camList;
-
-  parseWebcamXml(webcamReader, camList);
-
-  if (camList.isEmpty())
-  {
-    QString errString;
-    errString += "No webcams found in ";
-    errString += filename;
-    messenger->sendMessage(errString);
-qDebug() << "No Webcams Found in " << filename;;
-    return;
-  }
-
-  // Empty out the current list:
-  selectorDialog->clearWebcams();
-
-  int i = 0;
-  int size = camList.size();
-  while (i < size)
-  {
-    selectorDialog->insertWebcam(camList[i]);
-    ++i;
-  }
-
-  loadWebcam(camList[0]);
+  loadFileDialog->exec();
 }
 
 
@@ -318,162 +290,6 @@ void MainWindow::on_actionAbout_triggered()
   ui->stackedWidget->setCurrentIndex(4);
 }
 
-
-void MainWindow::parseWebcamXml(
-  QXmlStreamReader &webcamReader,
-  QList<FetCamWidgetItem *> &camList)
-{
-  while(!webcamReader.atEnd())
-  {
-    webcamReader.readNext();
-
-    if (webcamReader.isStartElement())
-    {
-      if (webcamReader.name() == "fettuccine")
-      {
-//qDebug() << "found fettuccine element";
-        parseFettuccineElement(webcamReader, camList);
-      }
-    }
-  }
-
-  if (webcamReader.hasError())
-  {
-    QString err;
-    err.append("QXmlStreamReader returned error: ");
-    err.append(webcamReader.errorString());
-    messenger->sendMessage(err);
-//qDebug() << err;
-    return;
-  }
-}
-
-void MainWindow::parseFettuccineElement(
-  QXmlStreamReader &webcamReader,
-  QList<FetCamWidgetItem *> &camList)
-{
-  QString link;
-  QString homepage;
-  int refreshRate = 30; // default to 30 seconds.
-
-  while (!webcamReader.atEnd())
-  {
-    webcamReader.readNext();
-
-    if (webcamReader.isStartElement())
-    {
-      if (webcamReader.name() == "webcam")
-      {
-        if (webcamReader.attributes().hasAttribute("link"))
-        {
-          link = webcamReader.attributes().value("link").toString();
-        }
-
-        if (webcamReader.attributes().hasAttribute("homepage"))
-        {
-          homepage = webcamReader.attributes().value("homepage").toString();
-        }
-
-        if (webcamReader.attributes().hasAttribute("refreshRate"))
-        {
-          // Qt 4.8 needs conversion to string to get int, Qt 5.0 doesn not.
-#ifdef MAEMO_OS
-          refreshRate = webcamReader.attributes().value("refreshRate").toString().toInt();
-#else
-          refreshRate = webcamReader.attributes().value("refreshRate").toInt();
-#endif // MAEMO_OS
-        }
-
-        FetCamWidgetItem *item =
-          new FetCamWidgetItem(link, homepage, refreshRate);
-
-        parseWebcamElement(webcamReader, item);
-
-        camList.append(item);
-
-        link.clear();
-        homepage.clear();
-        refreshRate = 30;
-      }
-    }
-
-    else if (webcamReader.isEndElement())
-    {
-      if (webcamReader.name() == "fettuccine")
-      {
-        break;
-      }
-    }
-  }
-}
-
-
-void MainWindow::parseWebcamElement(
-  QXmlStreamReader &webcamReader,
-  FetCamWidgetItem *item)
-{
-  QString textString;
-
-  while (!webcamReader.atEnd())
-  {
-    webcamReader.readNext();
-
-    if (webcamReader.isStartElement())
-    {
-      if (webcamReader.name() == "name")
-      {
-        textString = parseText(webcamReader, "name");
-        if (!textString.isEmpty())
-        {
-          item->setName(textString);
-        }
-      }
-      else if (webcamReader.name() == "tag")
-      {
-        textString = parseText(webcamReader, "tag");
-        if (!textString.isEmpty())
-        {
-          item->addTag(textString);
-          tagDialog->addTag(textString);
-        }
-      }
-    }
-    else if (webcamReader.isEndElement())
-    {
-      if (webcamReader.name() == "webcam")
-      {
-        break;
-      }
-    }
-  }
-}
-
-
-QString MainWindow::parseText(
-  QXmlStreamReader &webcamReader,
-  QString elementName)
-{
-  QString textString;
-
-  while (!webcamReader.atEnd())
-  {
-    webcamReader.readNext();
-
-    if (webcamReader.isCharacters() && !webcamReader.isWhitespace())
-    {
-      textString.append(webcamReader.text().toString());
-    }
-    else if (webcamReader.isEndElement())
-    {
-      if (webcamReader.name() == elementName)
-      {
-        break;
-      }
-    }
-  }
-
-  return textString;
-}
 
 void MainWindow::on_fFullscreenButton_clicked()
 {

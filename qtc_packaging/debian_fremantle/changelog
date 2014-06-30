@@ -1,5 +1,10 @@
+fettuccine (0.8.0) unstable; urgency=low
+  * At this point, the app seems to have sufficient features and is working sufficiently well to release to the public.
+
+ -- John Pietrzak <jpietrzak8@gmail.com>  Sun, 29 Jun 2014 21:28:13 -0400
+
 fettuccine (0.0.1) unstable; urgency=low
 
   * Initial Release.
 
- -- unknown <john@unknown>  Fri, 13 Jun 2014 07:59:17 -0400
+ -- John Pietrzak <jpietrzak8@gmail.com>  Fri, 13 Jun 2014 07:59:17 -0400

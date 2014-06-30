@@ -25,6 +25,8 @@
 
 #include <QListWidgetItem>
 #include <QString>
+#include <QSet>
+#include <QList>
 #include <QSettings>
 
 typedef QSet<QString> TagCollection;
@@ -63,6 +65,9 @@ public:
   void storeData(
     QSettings &settings);
 
+  TagCollection::const_iterator tagsBegin() {return tags.begin();}
+  TagCollection::const_iterator tagsEnd() {return tags.end();}
+
 private:
   QString displayName;
   QString link;
@@ -70,5 +75,7 @@ private:
   int refreshRate;
   TagCollection tags;
 };
+
+typedef QList<FetCamWidgetItem *> FetCamCollection;
 
 #endif // FETCAMWIDGETITEM_H
