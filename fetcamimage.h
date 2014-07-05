@@ -25,39 +25,96 @@
 
 #include <QLabel>
 #include <QPixmap>
+#include <QNetworkAccessManager>
 
 class QWidget;
 class QByteArray;
 class QBuffer;
 class QMovie;
+class FetMessenger;
+class FetCamSelectorDialog;
+class FetTagDialog;
+class FetCamInfoDialog;
+class FetLoadFileDialog;
+class FetWidgetSettingsDialog;
+class FetCamWidgetItem;
+class QTimer;
+class QNetworkReply;
+class QResizeEvent;
 
 class FetCamImage: public QLabel
 {
   Q_OBJECT
 
 public:
-  FetCamImage(
-    QWidget *parent);
+  explicit FetCamImage(
+    QWidget *parent = 0);
 
   ~FetCamImage();
+
+  QSize sizeHint() const;
+
+  void setupSettingsDialog();
 
   void setImage(
     const QByteArray &imageByteArray);
 
   void manualResize();
 
+  void nextImage();
+  void prevImage();
+  void openHomepage();
+
+public slots:
+  void selectWebcam();
+  void filterByCategory();
+  void displayWebcamInfo();
+  void importWebcamList();
+  void showSettingsDialog();
+
+  void changeSizeTo(
+    int width,
+    int height);
+
 signals:
   void imageError(QString);
+
+  void newWebcamName(QString);
 
 protected:
   void resizeEvent(
     QResizeEvent *event);
+
+private slots:
+  void retrieveImage();
+
+  void updateWidget(
+    QNetworkReply *reply);
+
+  void loadWebcam(
+    FetCamWidgetItem *item);
 
 private:
   QByteArray *imageData;
   QBuffer *imageBuffer;
   QMovie *currentMovie;
   QPixmap currentPixmap;
+
+  FetCamSelectorDialog *selectorDialog;
+  FetTagDialog *tagDialog;
+  FetCamInfoDialog *infoDialog;
+  FetLoadFileDialog *loadFileDialog;
+  FetWidgetSettingsDialog *settingsDialog;
+  FetMessenger *messenger;
+
+  QNetworkAccessManager qnam;
+  QNetworkReply *currentReply;
+
+  QTimer *timer;
+
+  QString currentWebcamUrl;
+  QString currentWebcamHomepage;
+  int numberOfRedirections;
 };
 
 #endif // FETCAMIMAGE_H

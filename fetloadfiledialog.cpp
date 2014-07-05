@@ -39,6 +39,19 @@ FetLoadFileDialog::~FetLoadFileDialog()
 }
 
 
+void FetLoadFileDialog::on_sourceComboBox_activated(const QString &arg1)
+{
+  if (arg1 == "Remote Webcams File (HTTP Protocol)")
+  {
+    ui->urlLineEdit->setEnabled(true);
+  }
+  else
+  {
+    ui->urlLineEdit->setEnabled(false);
+  }
+}
+
+
 void FetLoadFileDialog::on_buttonBox_accepted()
 {
   // Need to do better than accessing raw index values here!
@@ -48,7 +61,7 @@ void FetLoadFileDialog::on_buttonBox_accepted()
     xmlFileReply = xmlFileRetriever.get(
       QNetworkRequest(
         QUrl(
-          "http://jpietrzak8.github.io/Fettuccine/fettuccine.xml")));
+          ui->urlLineEdit->text())));
 
     connect(
       xmlFileReply,
@@ -118,15 +131,14 @@ void FetLoadFileDialog::cancelCurrentDownload()
 
 void FetLoadFileDialog::marshalReply()
 {
-  if (!canceled)
+  if (xmlFileReply) // is this check necessary?
   {
-    // Throw error if reply empty?
-    if (xmlFileReply)
+    if (!canceled)
     {
       readWebcamFile(xmlFileReply);
-
-      xmlFileReply->deleteLater();
     }
+
+    xmlFileReply->deleteLater();
   }
 
   // Reset the canceled flag:

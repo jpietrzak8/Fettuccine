@@ -14,5 +14,6 @@
         <file>icons/FetTag.svg</file>
         <file>doc/about.html</file>
         <file>doc/documentation.html</file>
+        <file>fettuccine64.png</file>
     </qresource>
 </RCC>

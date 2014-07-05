@@ -33,6 +33,9 @@ signals:
 private slots:
   void on_buttonBox_accepted();
 
+  void on_sourceComboBox_activated(
+    const QString &arg1);
+
   void downloadProgress(
     qint64 bytesReceived,
     qint64 bytesTotal);

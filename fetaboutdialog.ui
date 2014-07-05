@@ -1,37 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>FetLoadFileDialog</class>
- <widget class="QDialog" name="FetLoadFileDialog">
+ <class>FetAboutDialog</class>
+ <widget class="QDialog" name="FetAboutDialog">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>500</width>
+    <width>400</width>
     <height>300</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Choose Webcams File</string>
+   <string>About Fettuccine</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
-    <widget class="QComboBox" name="sourceComboBox">
-     <item>
-      <property name="text">
-       <string>Remote Webcams File (HTTP Protocol)</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>Local Webcams File</string>
-      </property>
-     </item>
-    </widget>
-   </item>
-   <item>
-    <widget class="QLineEdit" name="urlLineEdit">
-     <property name="text">
-      <string>http://jpietrzak8.github.io/Fettuccine/fettuccine.xml</string>
+    <widget class="QTextBrowser" name="textBrowser">
+     <property name="source">
+      <url>
+       <string>qrc:/doc/about.html</string>
+      </url>
      </property>
     </widget>
    </item>
@@ -52,7 +40,7 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>accepted()</signal>
-   <receiver>FetLoadFileDialog</receiver>
+   <receiver>FetAboutDialog</receiver>
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -68,7 +56,7 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>rejected()</signal>
-   <receiver>FetLoadFileDialog</receiver>
+   <receiver>FetAboutDialog</receiver>
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">

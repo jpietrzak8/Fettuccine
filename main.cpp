@@ -27,14 +27,60 @@
 #ifdef MAEMO_OS
 #include <QtGui/QApplication>
 #include <QWidget>
+#include "qmaemo5homescreenadaptor.h"
+#include "fetcamimage.h"
 #else
 #include <QApplication>
 #endif // MAEMO_OS
+
+#include <QDebug>
 
 int main(int argc, char *argv[])
 {
   QApplication app(argc, argv);
 
+#ifdef MAEMO_OS
+  // On Maemo, check if we run as a widget:
+  bool runAsApp = false;
+  QStringList argList = app.arguments();
+  int i = 1;
+  while (i < argList.size())
+  {
+    if ( (argList.at(i) == "-a")
+      || (argList.at(i) == "--runAsApp"))
+    {
+      runAsApp = true;
+      break;
+    }
+
+    ++i;
+  }
+
+  if (!runAsApp)
+  {
+    // Run as a widget:
+    FetCamImage image;
+
+    image.setupSettingsDialog();
+
+    QMaemo5HomescreenAdaptor *adaptor =
+      new QMaemo5HomescreenAdaptor(&image);
+
+    adaptor->setSettingsAvailable(true);
+
+    QObject::connect(
+      adaptor,
+      SIGNAL(settingsRequested()),
+      &image,
+      SLOT(showSettingsDialog()));
+
+    image.show();
+
+    return app.exec();
+  }
+#endif // MAEMO_OS
+
+  // Run as a normal application:
   MainWindow mainWindow;
 
 #ifdef MAEMO_OS

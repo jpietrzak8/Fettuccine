@@ -31,20 +31,8 @@
 #include <QMainWindow>
 #endif // MAEMO_OS
 
-#include <QNetworkAccessManager>
-#include <QString>
-#include "fetmessenger.h"
-#include "fetcamimage.h"
-//#include <QByteArray>
-
-class QTimer;
-class QNetworkReply;
-class FetCamSelectorDialog;
-class FetTagDialog;
-class FetCamInfoDialog;
-class FetLoadFileDialog;
-class FetCamWidgetItem;
 class QResizeEvent;
+class FetCamImage;
 
 namespace Ui {
   class MainWindow;
@@ -65,14 +53,6 @@ protected:
     QResizeEvent *event);
 
 private slots:
-  void retrieveImage();
-
-  void updateWidget(
-    QNetworkReply *reply);
-
-  void loadWebcam(
-    FetCamWidgetItem *item);
-
   void on_actionSelect_Webcam_triggered();
   void on_actionWebcam_Info_triggered();
   void on_actionImport_Webcam_List_triggered();
@@ -93,6 +73,9 @@ private slots:
   void on_closeAboutButton_clicked();
   void on_closeDocButton_clicked();
 
+  void setWebcamName(
+    QString name);
+
 private:
   void returnToControls();
 
@@ -102,18 +85,6 @@ private:
 
   Ui::MainWindow *ui;
 
-  FetCamSelectorDialog *selectorDialog;
-  FetTagDialog *tagDialog;
-  FetCamInfoDialog *infoDialog;
-  FetLoadFileDialog *loadFileDialog;
-  FetMessenger *messenger;
-
-  QNetworkAccessManager qnam;
-
-  QTimer *timer;
-
-  QString currentWebcamUrl;
-  QString currentWebcamHomepage;
   bool controlsHidden;
 
   // Image management:

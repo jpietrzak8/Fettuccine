@@ -24,17 +24,8 @@
 #include "ui_mainwindow.h"
 
 #include "fettargetarchitecture.h"
-#include "fetcamselectordialog.h"
-#include "fettagdialog.h"
-#include "fetcaminfodialog.h"
-#include "fetloadfiledialog.h"
-#include "fetcamwidgetitem.h"
-#include <QTimer>
-#include <QUrl>
-#include <QNetworkReply>
-#include <QSettings>
 #include <QResizeEvent>
-#include <QDesktopServices>
+#include "fetcamimage.h"
 
 #ifdef ANDROID_OS
 #include <QScreen>
@@ -46,12 +37,6 @@ MainWindow::MainWindow(
   QWidget *parent)
   : QMainWindow(parent),
     ui(new Ui::MainWindow),
-    selectorDialog(0),
-    tagDialog(0),
-    infoDialog(0),
-    loadFileDialog(0),
-    messenger(0),
-    timer(0),
     controlsHidden(true),
     webcamImage(0)
 {
@@ -68,106 +53,27 @@ MainWindow::MainWindow(
   webcamImage = new FetCamImage(ui->centralWidget);
   webcamImage->lower();
 
-  selectorDialog = new FetCamSelectorDialog(this);
-  tagDialog = new FetTagDialog(this);
-  infoDialog = new FetCamInfoDialog(this);
-  loadFileDialog = new FetLoadFileDialog(this);
-  messenger = new FetMessenger(this);
-
   connect(
     webcamImage,
-    SIGNAL(imageError(QString)),
-    messenger,
-    SLOT(sendMessage(QString)));
-
-  connect(
-    selectorDialog,
-    SIGNAL(addNewTag(QString)),
-    tagDialog,
-    SLOT(addTag(QString)));
-
-  connect(
-    selectorDialog,
-    SIGNAL(clearTags()),
-    tagDialog,
-    SLOT(clearTags()));
-
-  connect(
-    selectorDialog,
-    SIGNAL(showWebcam(FetCamWidgetItem *)),
+    SIGNAL(newWebcamName(QString)),
     this,
-    SLOT(loadWebcam(FetCamWidgetItem *)));
-
-  connect(
-    selectorDialog,
-    SIGNAL(selectorWarning(QString)),
-    messenger,
-    SLOT(sendMessage(QString)));
-
-  connect(
-    tagDialog,
-    SIGNAL(selectByTag(QString)),
-    selectorDialog,
-    SLOT(filterList(QString)));
-
-  connect(
-    loadFileDialog,
-    SIGNAL(newCamList(FetCamCollection)),
-    selectorDialog,
-    SLOT(loadWebcams(FetCamCollection)));
-
-  connect(
-    loadFileDialog,
-    SIGNAL(loadFileError(QString)),
-    messenger,
-    SLOT(sendMessage(QString)));
-
-  connect(
-    &qnam,
-    SIGNAL(finished(QNetworkReply *)),
-    this,
-    SLOT(updateWidget(QNetworkReply *)));
-
-  timer = new QTimer(this);
-
-  connect(
-    timer,
-    SIGNAL(timeout()),
-    this,
-    SLOT(retrieveImage()));
-
-  // Need to populate the list after the connections have been made:
-  selectorDialog->populateList();
-
-  QSettings settings("pietrzak.org", "Fettuccine");
-
-  if (settings.contains("currentWebcamID"))
-  {
-    selectorDialog->chooseItem(
-      settings.value("currentWebcamID").toInt());
-  }
-  else
-  {
-    // Start with the first item on the list:
-    selectorDialog->chooseItem(0);
-  }
+    SLOT(setWebcamName(QString)));
 }
 
 
 MainWindow::~MainWindow()
 {
-  QSettings settings("pietrzak.org", "Fettuccine");
- 
-  settings.setValue("currentWebcamID", selectorDialog->getCurrentID());
-
-  if (timer) delete timer;
-  if (messenger) delete messenger;
-  if (loadFileDialog) delete loadFileDialog;
-  if (infoDialog) delete infoDialog;
-  if (tagDialog) delete tagDialog;
-  if (selectorDialog) delete selectorDialog;
+  if (webcamImage) delete webcamImage;
 
   delete ui;
+}
+
+
+void MainWindow::setWebcamName(
+  QString name)
+{
+  ui->hWebcamLabel->setText(name);
+  ui->vWebcamLabel->setText(name);
 }
 
 
@@ -194,88 +100,27 @@ void MainWindow::resizeEvent(
 }
 
 
-void MainWindow::retrieveImage()
-{
-  qnam.get(QNetworkRequest(QUrl(currentWebcamUrl)));
-}
-
-
-void MainWindow::updateWidget(
-  QNetworkReply *reply)
-{
-  // Check this reply against the current webcam URL:
-  if (reply->request().url() != QUrl(currentWebcamUrl))
-  {
-qDebug() << "reply->request().url().toString() " << reply->request().url().toString();
-qDebug() << "currentWebcamUrl " << currentWebcamUrl;
-    // This reply is for an earlier webcam, so don't bother with it.
-    return;
-  }
-
-  // Support some amount of redirection here:
-  QUrl redirectUrl =
-    reply->attribute(
-      QNetworkRequest::RedirectionTargetAttribute).toUrl();
-
-  if (!redirectUrl.isEmpty())
-  {
-    currentWebcamUrl = redirectUrl.toString();
-    qnam.get(QNetworkRequest(redirectUrl));
-    reply->deleteLater();
-    return;
-  }
-
-  // We should have an image at this point.
-  webcamImage->setImage(reply->readAll());
-
-  reply->deleteLater();
-}
-
-
-void MainWindow::loadWebcam(
-  FetCamWidgetItem *item)
-{
-  currentWebcamUrl = item->getLink();
-  currentWebcamHomepage = item->getHomepage();
-  ui->hWebcamLabel->setText(item->getName());
-  ui->vWebcamLabel->setText(item->getName());
-
-  retrieveImage();
-
-  timer->start(item->getRefreshRate() * 1000);
-}
-
-
 void MainWindow::on_actionSelect_Webcam_triggered()
 {
-#ifdef ANDROID_OS
-  selectorDialog->reposition(); // needed for Qt/Android
-#endif // ANDROID_OS
-  selectorDialog->exec();
+  webcamImage->selectWebcam();
 }
 
 
 void MainWindow::on_actionFilter_by_Category_triggered()
 {
-  tagDialog->exec();
+  webcamImage->filterByCategory();
 }
 
 
 void MainWindow::on_actionWebcam_Info_triggered()
 {
-  infoDialog->setupDialog(
-    selectorDialog->getCurrentItem());
-
-#ifdef ANDROID_OS
-  infoDialog->reposition();  // Needed for Qt/Android
-#endif // ANDROID_OS
-  infoDialog->exec();
+  webcamImage->displayWebcamInfo();
 }
 
 
 void MainWindow::on_actionImport_Webcam_List_triggered()
 {
-  loadFileDialog->exec();
+  webcamImage->importWebcamList();
 }
 
 
@@ -305,6 +150,7 @@ void MainWindow::on_fFullscreenButton_clicked()
   controlsHidden = false;
 }
 
+
 void MainWindow::on_hFullscreenButton_clicked()
 {
   ui->stackedWidget->setCurrentIndex(0);
@@ -312,24 +158,28 @@ void MainWindow::on_hFullscreenButton_clicked()
   controlsHidden = true;
 }
 
+
 void MainWindow::on_hNextButton_clicked()
 {
-  selectorDialog->chooseNextItem();
+  webcamImage->nextImage();
 }
+
 
 void MainWindow::on_hPrevButton_clicked()
 {
-  selectorDialog->choosePreviousItem();
+  webcamImage->prevImage();
 }
+
 
 void MainWindow::on_vPrevButton_clicked()
 {
-  selectorDialog->choosePreviousItem();
+  webcamImage->prevImage();
 }
+
 
 void MainWindow::on_vNextButton_clicked()
 {
-  selectorDialog->chooseNextItem();
+  webcamImage->nextImage();
 }
 
 void MainWindow::on_vFullscreenButton_clicked()
@@ -341,28 +191,33 @@ void MainWindow::on_vFullscreenButton_clicked()
 
 void MainWindow::on_vHomeButton_clicked()
 {
-  QDesktopServices::openUrl(QUrl(currentWebcamHomepage));
+  webcamImage->openHomepage();
 }
+
 
 void MainWindow::on_hHomeButton_clicked()
 {
-  QDesktopServices::openUrl(QUrl(currentWebcamHomepage));
+  webcamImage->openHomepage();
 }
+
 
 void MainWindow::on_hTagButton_clicked()
 {
-  tagDialog->exec();
+  webcamImage->filterByCategory();
 }
+
 
 void MainWindow::on_vTagButton_clicked()
 {
-  tagDialog->exec();
+  webcamImage->filterByCategory();
 }
+
 
 void MainWindow::on_closeAboutButton_clicked()
 {
   returnToControls();
 }
+
 
 void MainWindow::on_closeDocButton_clicked()
 {

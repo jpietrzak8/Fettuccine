@@ -31,7 +31,10 @@ SOURCES += main.cpp mainwindow.cpp \
     fetmessenger.cpp \
     fetcamimage.cpp \
     fettagdialog.cpp \
-    fetloadfiledialog.cpp
+    fetloadfiledialog.cpp \
+    fetwidgetsettingsdialog.cpp \
+    qmaemo5homescreenadaptor.cpp \
+    fetaboutdialog.cpp
 HEADERS += mainwindow.h \
     fetcamwidgetitem.h \
     fetcamselectordialog.h \
@@ -40,12 +43,17 @@ HEADERS += mainwindow.h \
     fettargetarchitecture.h \
     fetcamimage.h \
     fettagdialog.h \
-    fetloadfiledialog.h
+    fetloadfiledialog.h \
+    fetwidgetsettingsdialog.h \
+    qmaemo5homescreenadaptor.h \
+    fetaboutdialog.h
 FORMS += mainwindow.ui \
     fetcamselectordialog.ui \
     fetcaminfodialog.ui \
     fettagdialog.ui \
-    fetloadfiledialog.ui
+    fetloadfiledialog.ui \
+    fetwidgetsettingsdialog.ui \
+    fetaboutdialog.ui
 
 # Please do not modify the following two lines. Required for deployment.
 include(deployment.pri)
@@ -71,3 +79,9 @@ OTHER_FILES += \
 
 RESOURCES += \
     fettuccine.qrc
+
+# Extra files needed to create a homescreen widget:
+desktop.path = /usr/share/applications/hildon-home
+desktop.files = fettuccinewidget.desktop
+
+INSTALLS += desktop

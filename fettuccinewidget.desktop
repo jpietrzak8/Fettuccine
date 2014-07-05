@@ -1,0 +1,9 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=Fettuccine Widget
+Comment=View a webcam on the home screen
+Type=qt
+X-Path=/opt/fettuccine/bin/fettuccine
+X-Multiple=true
+X-home-applet-minwidth=320
+X-home-applet-minheight=200
