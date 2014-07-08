@@ -454,4 +454,11 @@
   <tag>Ocean</tag>
  </webcam>
 
+ <webcam
+  link="http://images.intellicast.com/WxImages/RadarLoop/msy_None_anim.gif"
+  homepage="http://www.intellicast.com/National/Radar/Current.aspx?location=USAL0371&amp;animate=true"
+  refreshRate="300">
+  <name>Weather test</name>
+ </webcam>
+
 </fettuccine>
