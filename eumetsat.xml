@@ -42,156 +42,204 @@
   <tag>IR</tag>
  </webcam>
 
-<!--
  <webcam
   link="http://oiswww.eumetsat.org/IPPS/html/latestImages/EUMETSAT_MSG_IR039E-centralEurope.jpg"
   homepage="http://oiswww.eumetsat.org/IPPS/html/latestImages.html"
   refreshRate="3600">
-  <name>Meteosat 0 Degree</name>
+  <name>Meteosat 0 Degree Central Europe IR 3.9</name>
+  <tag>Europe</tag>
+  <tag>Central Europe</tag>
   <tag>Mono</tag>
+  <tag>IR</tag>
  </webcam>
 
  <webcam
   link="http://oiswww.eumetsat.org/IPPS/html/latestImages/EUMETSAT_MSG_IR039EColor-centralEurope.jpg"
   homepage="http://oiswww.eumetsat.org/IPPS/html/latestImages.html"
   refreshRate="3600">
-  <name>Meteosat 0 Degree</name>
+  <name>Meteosat 0 Degree Central Europe IR 3.9</name>
+  <tag>Europe</tag>
+  <tag>Central Europe</tag>
   <tag>Color</tag>
+  <tag>IR</tag>
  </webcam>
 
  <webcam
   link="http://oiswww.eumetsat.org/IPPS/html/latestImages/EUMETSAT_MSG_IR039E-easternEurope.jpg"
   homepage="http://oiswww.eumetsat.org/IPPS/html/latestImages.html"
   refreshRate="3600">
-  <name>Meteosat 0 Degree</name>
+  <name>Meteosat 0 Degree Eastern Europe IR 3.9</name>
+  <tag>Europe</tag>
+  <tag>Eastern Europe</tag>
   <tag>Mono</tag>
+  <tag>IR</tag>
  </webcam>
 
  <webcam
   link="http://oiswww.eumetsat.org/IPPS/html/latestImages/EUMETSAT_MSG_IR039EColor-easternEurope.jpg"
   homepage="http://oiswww.eumetsat.org/IPPS/html/latestImages.html"
   refreshRate="3600">
-  <name>Meteosat 0 Degree</name>
+  <name>Meteosat 0 Degree Eastern Europe IR 3.9</name>
+  <tag>Europe</tag>
+  <tag>Eastern Europe</tag>
   <tag>Color</tag>
+  <tag>IR</tag>
  </webcam>
 
  <webcam
   link="http://oiswww.eumetsat.org/IPPS/html/latestImages/EUMETSAT_MSG_IR039-westernAfrica.jpg"
   homepage="http://oiswww.eumetsat.org/IPPS/html/latestImages.html"
   refreshRate="3600">
-  <name>Meteosat 0 Degree</name>
+  <name>Meteosat 0 Degree Western Africa IR 3.9</name>
+  <tag>Africa</tag>
+  <tag>Western Africa</tag>
   <tag>Mono</tag>
+  <tag>IR<tag>
  </webcam>
 
  <webcam
   link="http://oiswww.eumetsat.org/IPPS/html/latestImages/EUMETSAT_MSG_IR039Color-westernAfrica.jpg"
   homepage="http://oiswww.eumetsat.org/IPPS/html/latestImages.html"
   refreshRate="3600">
-  <name>Meteosat 0 Degree</name>
+  <name>Meteosat 0 Degree Western Africa IR 3.9</name>
+  <tag>Africa</tag>
+  <tag>Western Africa</tag>
   <tag>Color</tag>
+  <tag>IR</tag>
  </webcam>
 
  <webcam
   link="http://oiswww.eumetsat.org/IPPS/html/latestImages/EUMETSAT_MSG_IR039-centralAfrica.jpg"
   homepage="http://oiswww.eumetsat.org/IPPS/html/latestImages.html"
   refreshRate="3600">
-  <name>Meteosat 0 Degree</name>
+  <name>Meteosat 0 Degree Central Africa IR 3.9</name>
+  <tag>Africa</tag>
+  <tag>Central Africa</tag>
   <tag>Mono</tag>
+  <tag>IR</tag>
  </webcam>
 
  <webcam
   link="http://oiswww.eumetsat.org/IPPS/html/latestImages/EUMETSAT_MSG_IR039Color-centralAfrica.jpg"
   homepage="http://oiswww.eumetsat.org/IPPS/html/latestImages.html"
   refreshRate="3600">
-  <name>Meteosat 0 Degree</name>
+  <name>Meteosat 0 Degree Central Africa IR 3.9</name>
+  <tag>Africa</tag>
+  <tag>Central Africa</tag>
   <tag>Color</tag>
+  <tag>IR</tag>
  </webcam>
 
  <webcam
   link="http://oiswww.eumetsat.org/IPPS/html/latestImages/EUMETSAT_MSG_IR039-easternAfrica.jpg"
   homepage="http://oiswww.eumetsat.org/IPPS/html/latestImages.html"
   refreshRate="3600">
-  <name>Meteosat 0 Degree</name>
+  <name>Meteosat 0 Degree Eastern Africa IR 3.9</name>
+  <tag>Africa</tag>
+  <tag>Eastern Africa</tag>
   <tag>Mono</tag>
+  <tag>IR</tag>
  </webcam>
 
  <webcam
   link="http://oiswww.eumetsat.org/IPPS/html/latestImages/EUMETSAT_MSG_IR039Color-easternAfrica.jpg"
   homepage="http://oiswww.eumetsat.org/IPPS/html/latestImages.html"
   refreshRate="3600">
-  <name>Meteosat 0 Degree</name>
+  <name>Meteosat 0 Degree Eastern Africa IR 3.9</name>
+  <tag>Africa</tag>
+  <tag>Eastern Africa</tag>
   <tag>Color</tag>
+  <tag>IR</tag>
  </webcam>
 
  <webcam
   link="http://oiswww.eumetsat.org/IPPS/html/latestImages/EUMETSAT_MSG_IR039-southernAfrica.jpg"
   homepage="http://oiswww.eumetsat.org/IPPS/html/latestImages.html"
   refreshRate="3600">
-  <name>Meteosat 0 Degree</name>
+  <name>Meteosat 0 Degree Southern Africa IR 3.9</name>
+  <tag>Africa</tag>
+  <tag>Southern Africa</tag>
   <tag>Mono</tag>
+  <tag>IR</tag>
  </webcam>
 
  <webcam
   link="http://oiswww.eumetsat.org/IPPS/html/latestImages/EUMETSAT_MSG_IR039Color-southernAfrica.jpg"
   homepage="http://oiswww.eumetsat.org/IPPS/html/latestImages.html"
   refreshRate="3600">
-  <name>Meteosat 0 Degree</name>
+  <name>Meteosat 0 Degree Southern Africa IR 3.9</name>
+  <tag>Africa</tag>
+  <tag>Southern Africa</tag>
   <tag>Color</tag>
+  <tag>IR</tag>
  </webcam>
 
  <webcam
   link="http://oiswww.eumetsat.org/IPPS/html/latestImages/EUMETSAT_MSG_IR039-westAtlantic.jpg"
   homepage="http://oiswww.eumetsat.org/IPPS/html/latestImages.html"
   refreshRate="3600">
-  <name>Meteosat 0 Degree</name>
+  <name>Meteosat 0 Degree West Atlantic IR 3.9</name>
+  <tag>West Atlantic</tag>
   <tag>Mono</tag>
+  <tag>IR</tag>
  </webcam>
 
  <webcam
   link="http://oiswww.eumetsat.org/IPPS/html/latestImages/EUMETSAT_MSG_IR039Color-westAtlantic.jpg"
   homepage="http://oiswww.eumetsat.org/IPPS/html/latestImages.html"
   refreshRate="3600">
-  <name>Meteosat 0 Degree</name>
+  <name>Meteosat 0 Degree West Atlantic IR 3.9</name>
+  <tag>West Atlantic</tag>
   <tag>Color</tag>
+  <tag>IR</tag>
  </webcam>
 
  <webcam
   link="http://oiswww.eumetsat.org/IPPS/html/latestImages/EUMETSAT_MSG_IR039-america.jpg"
   homepage="http://oiswww.eumetsat.org/IPPS/html/latestImages.html"
   refreshRate="3600">
-  <name>Meteosat 0 Degree</name>
+  <name>Meteosat 0 Degree America IR 3.9</name>
+  <tag>America</tag>
   <tag>Mono</tag>
+  <tag>IR</tag>
  </webcam>
 
  <webcam
   link="http://oiswww.eumetsat.org/IPPS/html/latestImages/EUMETSAT_MSG_IR039Color-america.jpg"
   homepage="http://oiswww.eumetsat.org/IPPS/html/latestImages.html"
   refreshRate="3600">
-  <name>Meteosat 0 Degree</name>
+  <name>Meteosat 0 Degree America IR 3.9</name>
+  <tag>America</tag>
   <tag>Color</tag>
+  <tag>IR</tag>
  </webcam>
 
  <webcam
   link="http://oiswww.eumetsat.org/IPPS/html/latestImages/EUMETSAT_MSG_IR039-antarctic.jpg"
   homepage="http://oiswww.eumetsat.org/IPPS/html/latestImages.html"
   refreshRate="3600">
-  <name>Meteosat 0 Degree</name>
+  <name>Meteosat 0 Degree Antarctic IR 3.9</name>
+  <tag>Antarctic</tag>
   <tag>Mono</tag>
+  <tag>IR</tag>
  </webcam>
 
  <webcam
   link="http://oiswww.eumetsat.org/IPPS/html/latestImages/EUMETSAT_MSG_IR039Color-antarctic.jpg"
   homepage="http://oiswww.eumetsat.org/IPPS/html/latestImages.html"
   refreshRate="3600">
-  <name>Meteosat 0 Degree</name>
+  <name>Meteosat 0 Degree Antarctic IR 3.9</name>
+  <tag>Antarctic</tag>
   <tag>Color</tag>
+  <tag>IR</tag>
  </webcam>
 
+<!--
  <webcam
   link="http://oiswww.eumetsat.org/IPPS/html/latestImages/EUMETSAT_MSG_IR108-all.jpg"
   homepage="http://oiswww.eumetsat.org/IPPS/html/latestImages.html"
   refreshRate="3600">
-  <name>Meteosat 0 Degree</name>
+  <name>Meteosat 0 Degree </name>
   <tag>Mono</tag>
  </webcam>
 
@@ -362,63 +410,84 @@
   <name>Meteosat 0 Degree</name>
   <tag>Color</tag>
  </webcam>
+-->
 
  <webcam
   link="http://oiswww.eumetsat.org/IPPS/html/latestImages/EUMETSAT_MSG_VIS006-all.jpg"
   homepage="http://oiswww.eumetsat.org/IPPS/html/latestImages.html"
   refreshRate="3600">
-  <name>Meteosat 0 Degree</name>
+  <name>Meteosat 0 Degree Full Disk Visual</name>
+  <tag>Full Disk</tag>
   <tag>Mono</tag>
+  <tag>Visual</tag>
  </webcam>
 
  <webcam
   link="http://oiswww.eumetsat.org/IPPS/html/latestImages/EUMETSAT_MSG_VIS006Color-all.jpg"
   homepage="http://oiswww.eumetsat.org/IPPS/html/latestImages.html"
   refreshRate="3600">
-  <name>Meteosat 0 Degree</name>
+  <name>Meteosat 0 Degree Full Disk Visual</name>
+  <tag>Full Disk</tag>
   <tag>Color</tag>
+  <tag>Visual</tag>
  </webcam>
 
  <webcam
   link="http://oiswww.eumetsat.org/IPPS/html/latestImages/EUMETSAT_MSG_VIS006E-westernEurope.jpg"
   homepage="http://oiswww.eumetsat.org/IPPS/html/latestImages.html"
   refreshRate="3600">
-  <name>Meteosat 0 Degree</name>
+  <name>Meteosat 0 Degree Western Europe Visual</name>
+  <tag>Europe</tag>
+  <tag>Western Europe</tag>
   <tag>Mono</tag>
+  <tag>Visual</tag>
  </webcam>
 
  <webcam
   link="http://oiswww.eumetsat.org/IPPS/html/latestImages/EUMETSAT_MSG_VIS006EColor-westernEurope.jpg"
   homepage="http://oiswww.eumetsat.org/IPPS/html/latestImages.html"
   refreshRate="3600">
-  <name>Meteosat 0 Degree</name>
+  <name>Meteosat 0 Degree Western Europe Visual</name>
+  <tag>Europe</tag>
+  <tag>Western Europe</tag>
   <tag>Color</tag>
+  <tag>Visual</tag>
  </webcam>
 
  <webcam
   link="http://oiswww.eumetsat.org/IPPS/html/latestImages/EUMETSAT_MSG_VIS006E-centralEurope.jpg"
   homepage="http://oiswww.eumetsat.org/IPPS/html/latestImages.html"
   refreshRate="3600">
-  <name>Meteosat 0 Degree</name>
+  <name>Meteosat 0 Degree Central Europe Visual</name>
+  <tag>Europe</tag>
+  <tag>Central Europe</tag>
   <tag>Mono</tag>
+  <tag>Visual</tag>
  </webcam>
 
  <webcam
   link="http://oiswww.eumetsat.org/IPPS/html/latestImages/EUMETSAT_MSG_VIS006EColor-centralEurope.jpg"
   homepage="http://oiswww.eumetsat.org/IPPS/html/latestImages.html"
   refreshRate="3600">
-  <name>Meteosat 0 Degree</name>
+  <name>Meteosat 0 Degree Central Europe Visual</name>
+  <tag>Europe</tag>
+  <tag>Central Europe</tag>
   <tag>Color</tag>
+  <tag>Visual<tag>
  </webcam>
 
  <webcam
   link="http://oiswww.eumetsat.org/IPPS/html/latestImages/EUMETSAT_MSG_VIS006E-easternEurope.jpg"
   homepage="http://oiswww.eumetsat.org/IPPS/html/latestImages.html"
   refreshRate="3600">
-  <name>Meteosat 0 Degree</name>
+  <name>Meteosat 0 Degree Eastern Europe Visual</name>
+  <tag>Europe</tag>
+  <tag>Eastern Europe</tag>
   <tag>Mono</tag>
+  <tag>Visual</tag>
  </webcam>
 
+<!--
  <webcam
   link="http://oiswww.eumetsat.org/IPPS/html/latestImages/EUMETSAT_MSG_VIS006EColor-easternEurope.jpg"
   homepage="http://oiswww.eumetsat.org/IPPS/html/latestImages.html"
