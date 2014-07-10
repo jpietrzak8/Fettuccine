@@ -5,4 +5,11 @@
   refreshRate="3600">
   <name>Google Test Image</name>
  </webcam>
+
+ <webcam
+  link="https://drive.google.com/file/d/0B7nqxZHyi0XoSmlpTWhEQVJPSEU/edit?usp=sharing"
+  homepage="https://drive.google.com"
+  refreshRate="3600">
+  <name>Google Drive Image</name>
+ </webcam>
 </fettuccine>
