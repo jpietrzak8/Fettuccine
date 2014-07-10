@@ -26,6 +26,14 @@
 #include <QLabel>
 #include <QPixmap>
 #include <QNetworkAccessManager>
+#include "fettargetarchitecture.h"
+#include <QList>
+#include <QSslError>
+#include <QNetworkReply>
+
+#ifdef MAEMO_OS
+#include "fetdbus.h"
+#endif // MAEMO_OS
 
 class QWidget;
 class QByteArray;
@@ -41,6 +49,8 @@ class FetCamWidgetItem;
 class QTimer;
 class QNetworkReply;
 class QResizeEvent;
+class FetAuthenticationDialog;
+class QAuthenticator;
 
 class FetCamImage: public QLabel
 {
@@ -77,8 +87,6 @@ public slots:
     int height);
 
 signals:
-  void imageError(QString);
-
   void newWebcamName(QString);
 
 protected:
@@ -93,6 +101,22 @@ private slots:
 
   void loadWebcam(
     FetCamWidgetItem *item);
+
+  void parseNetworkAccessibility(
+    QNetworkAccessManager::NetworkAccessibility access);
+
+  void enterSleepMode();
+  void exitSleepMode();
+
+  void performAuthentication(
+    QNetworkReply *reply,
+    QAuthenticator *auth);
+
+  void handleReplyError(
+    QNetworkReply::NetworkError error);
+
+  void handleReplySslErrors(
+    QList<QSslError> errors);
 
 private:
   QByteArray *imageData;
@@ -114,7 +138,16 @@ private:
 
   QString currentWebcamUrl;
   QString currentWebcamHomepage;
+  int currentTimerInterval;
   int numberOfRedirections;
+  bool networkAccessible;
+  bool sleeping;
+
+  FetAuthenticationDialog *authDialog;
+
+#ifdef MAEMO_OS
+  FetDBus dbusListener;
+#endif // MAEMO_OS
 };
 
 #endif // FETCAMIMAGE_H

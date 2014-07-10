@@ -22,7 +22,7 @@ symbian:TARGET.CAPABILITY += NetworkServices
 # CONFIG += mobility
 # MOBILITY +=
 
-QT += network maemo5
+QT += network maemo5 dbus
 
 SOURCES += main.cpp mainwindow.cpp \
     fetcamwidgetitem.cpp \
@@ -34,7 +34,9 @@ SOURCES += main.cpp mainwindow.cpp \
     fetloadfiledialog.cpp \
     fetwidgetsettingsdialog.cpp \
     qmaemo5homescreenadaptor.cpp \
-    fetaboutdialog.cpp
+    fetaboutdialog.cpp \
+    fetdbus.cpp \
+    fetauthenticationdialog.cpp
 HEADERS += mainwindow.h \
     fetcamwidgetitem.h \
     fetcamselectordialog.h \
@@ -46,14 +48,17 @@ HEADERS += mainwindow.h \
     fetloadfiledialog.h \
     fetwidgetsettingsdialog.h \
     qmaemo5homescreenadaptor.h \
-    fetaboutdialog.h
+    fetaboutdialog.h \
+    fetdbus.h \
+    fetauthenticationdialog.h
 FORMS += mainwindow.ui \
     fetcamselectordialog.ui \
     fetcaminfodialog.ui \
     fettagdialog.ui \
     fetloadfiledialog.ui \
     fetwidgetsettingsdialog.ui \
-    fetaboutdialog.ui
+    fetaboutdialog.ui \
+    fetauthenticationdialog.ui
 
 # Please do not modify the following two lines. Required for deployment.
 include(deployment.pri)

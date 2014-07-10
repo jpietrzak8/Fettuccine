@@ -40,6 +40,8 @@
 #include <QNetworkReply>
 #include <QDesktopServices>
 #include <QSettings>
+#include "fetauthenticationdialog.h"
+#include <QAuthenticator>
 
 #include <QDebug>
 
@@ -57,7 +59,11 @@ FetCamImage::FetCamImage(
     messenger(0),
     currentReply(0),
     timer(0),
-    numberOfRedirections(0)
+    currentTimerInterval(5000),
+    numberOfRedirections(0),
+    networkAccessible(true),
+    sleeping(false),
+    authDialog(0)
 {
   setAlignment(Qt::AlignCenter);
 
@@ -67,7 +73,9 @@ FetCamImage::FetCamImage(
   loadFileDialog = new FetLoadFileDialog(parent);
   messenger = new FetMessenger(parent);
   timer = new QTimer();
+  authDialog = new FetAuthenticationDialog(parent);
 
+  // Handle Selector Dialog signals:
   connect(
     selectorDialog,
     SIGNAL(addNewTag(QString)),
@@ -92,12 +100,14 @@ FetCamImage::FetCamImage(
     messenger,
     SLOT(sendMessage(QString)));
 
+  // Handle Filter Dialog Signals:
   connect(
     tagDialog,
     SIGNAL(selectByTag(QString)),
     selectorDialog,
     SLOT(filterList(QString)));
 
+  // Handle Load File Dialog signals:
   connect(
     loadFileDialog,
     SIGNAL(newCamList(FetCamCollection)),
@@ -110,12 +120,34 @@ FetCamImage::FetCamImage(
     messenger,
     SLOT(sendMessage(QString)));
 
+  // Handle QNetworkAccessManager signals:
   connect(
     &qnam,
     SIGNAL(finished(QNetworkReply *)),
     this,
     SLOT(updateWidget(QNetworkReply *)));
 
+  connect(
+    &qnam,
+    SIGNAL(
+      networkAccessibleChanged(
+        QNetworkAccessManager::NetworkAccessibility)),
+    this,
+    SLOT(
+      parseNetworkAccessibility(
+        QNetworkAccessManager::NetworkAccessibility)));
+
+  connect(
+    &qnam,
+    SIGNAL(
+      authenticationRequired(
+        QNetworkReply*, QAuthenticator*)),
+    this,
+    SLOT(
+      performAuthentication(
+        QNetworkReply*, QAuthenticator*)));
+
+  // Manage Timer signals:
   connect(
     timer,
     SIGNAL(timeout()),
@@ -136,6 +168,22 @@ FetCamImage::FetCamImage(
     // Start with the first item on the list:
     selectorDialog->chooseItem(0);
   }
+
+#ifdef MAEMO_OS
+  // Turn off Fettuccine when the display goes dark:
+  connect(
+    &dbusListener,
+    SIGNAL(timeToSleep()),
+    this,
+    SLOT(enterSleepMode()));
+
+  // Turn back on when the screen comes back up:
+  connect(
+    &dbusListener,
+    SIGNAL(timeToWakeUp()),
+    this,
+    SLOT(exitSleepMode()));
+#endif // MAEMO_OS
 }
 
 
@@ -219,6 +267,18 @@ void FetCamImage::retrieveImage()
   }
 
   currentReply = qnam.get(QNetworkRequest(QUrl(currentWebcamUrl)));
+
+  connect(
+    currentReply,
+    SIGNAL(error(QNetworkReply::NetworkError)),
+    this,
+    SLOT(handleReplyError(QNetworkReply::NetworkError)));
+
+  connect(
+    currentReply,
+    SIGNAL(sslErrors(QList<QSslError>)),
+    this,
+    SLOT(handleReplySslErrors(QList<QSslError>)));
 }
 
 
@@ -345,10 +405,11 @@ void FetCamImage::loadWebcam(
   currentWebcamUrl = item->getLink();
   currentWebcamHomepage = item->getHomepage();
   emit newWebcamName(item->getName());
+  currentTimerInterval = item->getRefreshRate() * 1000;
 
   retrieveImage();
 
-  timer->start(item->getRefreshRate() * 1000);
+  timer->start(currentTimerInterval);
 }
 
 
@@ -382,7 +443,7 @@ void FetCamImage::setImage(
   // Sanity check:
   if (!ir.canRead())
   {
-    emit imageError("Unable to display webcam picture");
+    messenger->sendMessage("Unable to display webcam picture");
     return;
   }
 
@@ -455,4 +516,119 @@ void FetCamImage::resizeEvent(
   }
 
   event->accept();
+}
+
+
+void FetCamImage::parseNetworkAccessibility(
+  QNetworkAccessManager::NetworkAccessibility access)
+{
+  if (access == QNetworkAccessManager::Accessible)
+  {
+    // If the network was previously inaccessible, restart:
+    if (!networkAccessible)
+    {
+      networkAccessible = true;
+
+      // But only restart if we are not sleeping:
+      if (!sleeping)
+      {
+        timer->start(currentTimerInterval);
+      }
+    }
+  }
+  else
+  {
+    // If the network was previously accessible, stop:
+    if (networkAccessible)
+    {
+      networkAccessible = false;
+
+      timer->stop();
+
+      if (currentReply)
+      {
+        currentReply->abort();
+        currentReply->deleteLater();
+        currentReply = 0;
+      }
+    }
+  }
+}
+
+
+void FetCamImage::enterSleepMode()
+{
+  // Shut down the timer, and abort any current requests:
+  sleeping = true;
+
+  timer->stop();
+
+  if (currentReply)
+  {
+    currentReply->abort();
+    currentReply->deleteLater();
+    currentReply = 0;
+  }
+}
+
+
+void FetCamImage::exitSleepMode()
+{
+  sleeping = false;
+
+  // First check if the network is accessible:
+  if (networkAccessible)
+  {
+    // Refresh the image, and start the timer back up again.
+    retrieveImage();
+    timer->start(currentTimerInterval);
+  }
+  // The following is a hack to get around a QNAM problem:
+  else if (qnam.networkAccessible() ==
+    QNetworkAccessManager::UnknownAccessibility)
+  {
+    // Force the QNAM to wake up:
+    retrieveImage();
+  }
+}
+
+
+void FetCamImage::performAuthentication(
+  QNetworkReply *reply,
+  QAuthenticator *auth)
+{
+//qDebug() << reply->readAll();
+  authDialog->exec();
+
+  if (authDialog->wasAccepted())
+  {
+    auth->setUser(authDialog->getUser());
+    auth->setPassword(authDialog->getPassword());
+  }
+  else
+  {
+    // Cancel the current request:
+    timer->stop();
+    if (currentReply)
+    {
+      currentReply->abort();
+      currentReply->deleteLater();
+      currentReply = 0;
+    }
+  }
+}
+
+
+void FetCamImage::handleReplyError(
+  QNetworkReply::NetworkError error)
+{
+qDebug() << "QNetworkReply Error: " << error;
+  // Should inform the user about this...
+}
+
+
+void FetCamImage::handleReplySslErrors(
+  QList<QSslError> errors)
+{
+qDebug() << "SSL Errors: " << errors;
 }

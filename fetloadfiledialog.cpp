@@ -22,9 +22,6 @@ FetLoadFileDialog::FetLoadFileDialog(
 
   downloadQPD = new QProgressDialog();
 
-  // For now, we are downloading a fixed web page.  This will change!!
-  downloadQPD->setLabelText("Downloading fettuccine.xml");
-
   connect(
     downloadQPD,
     SIGNAL(canceled()),
@@ -57,7 +54,6 @@ void FetLoadFileDialog::on_buttonBox_accepted()
   // Need to do better than accessing raw index values here!
   if (ui->sourceComboBox->currentIndex() == 0)
   {
-    // Load file from the web.  Need to make this editable by user!!
     xmlFileReply = xmlFileRetriever.get(
       QNetworkRequest(
         QUrl(
@@ -75,10 +71,14 @@ void FetLoadFileDialog::on_buttonBox_accepted()
       this,
       SLOT(downloadProgress(qint64, qint64)));
 
+    QString progressLabel;
+    progressLabel.append("Downloading ");
+    progressLabel.append(ui->urlLineEdit->text());
+    downloadQPD->setLabelText(progressLabel);
     downloadQPD->exec();
 
     // For debugging purposes:
-    filename = "fettuccine.xml";
+    filename = ui->urlLineEdit->text();
     
     return;
   }
