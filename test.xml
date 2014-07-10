@@ -7,9 +7,9 @@
  </webcam>
 
  <webcam
-  link="https://drive.google.com/file/d/0B7nqxZHyi0XoSmlpTWhEQVJPSEU/edit?usp=sharing"
-  homepage="https://drive.google.com"
+  link="http://test.webdav.org/auth-basic/"
+  homepage="http://test.webdav.org"
   refreshRate="3600">
-  <name>Google Drive Image</name>
+  <name>Basic Authorization Test</name>
  </webcam>
 </fettuccine>
