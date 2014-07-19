@@ -52,48 +52,67 @@ void FetLoadFileDialog::on_sourceComboBox_activated(const QString &arg1)
 void FetLoadFileDialog::on_buttonBox_accepted()
 {
   // Need to do better than accessing raw index values here!
-  if (ui->sourceComboBox->currentIndex() == 0)
+  if (ui->sourceComboBox->currentIndex() == 2)
   {
-    xmlFileReply = xmlFileRetriever.get(
-      QNetworkRequest(
-        QUrl(
-          ui->urlLineEdit->text())));
+    // Load internal file:
+    loadDefaultList();
+    return;
+  }
+  else if (ui->sourceComboBox->currentIndex() == 1)
+  {
+    // Load local file.
 
-    connect(
-      xmlFileReply,
-      SIGNAL(finished()),
-      this,
-      SLOT(marshalReply()));
+    filename = QFileDialog::getOpenFileName(
+      this, "Select Webcam XML File");
 
-    connect(
-      xmlFileReply,
-      SIGNAL(downloadProgress(qint64, qint64)),
-      this,
-      SLOT(downloadProgress(qint64, qint64)));
+    if (filename.isEmpty())
+    {
+      // The user did not choose a file.
+      return;
+    }
 
-    QString progressLabel;
-    progressLabel.append("Downloading ");
-    progressLabel.append(ui->urlLineEdit->text());
-    downloadQPD->setLabelText(progressLabel);
-    downloadQPD->exec();
-
-    // For debugging purposes:
-    filename = ui->urlLineEdit->text();
-    
+    loadFile();
     return;
   }
 
-  // Load local file.
+  // Otherwise, load a file off the net:
+  xmlFileReply = xmlFileRetriever.get(
+    QNetworkRequest(
+      QUrl(
+        ui->urlLineEdit->text())));
 
-  filename = QFileDialog::getOpenFileName(
-    this, "Select Webcam XML File");
+  connect(
+    xmlFileReply,
+    SIGNAL(finished()),
+    this,
+    SLOT(marshalReply()));
 
-  if (filename.isEmpty())
-  {
-    // The user did not choose a file.
-    return;
-  }
+  connect(
+    xmlFileReply,
+    SIGNAL(downloadProgress(qint64, qint64)),
+    this,
+    SLOT(downloadProgress(qint64, qint64)));
 
+  QString progressLabel;
+  progressLabel.append("Downloading ");
+  progressLabel.append(ui->urlLineEdit->text());
+  downloadQPD->setLabelText(progressLabel);
+  downloadQPD->exec();
+
+  // For debugging purposes:
+  filename = ui->urlLineEdit->text();
+}
+
+
+void FetLoadFileDialog::loadDefaultList()
+{
+  filename = ":/fettuccine.xml";
+  loadFile();
+}
+
+
+void FetLoadFileDialog::loadFile()
+{
   QFile webcamFile(filename);
 
   if (!webcamFile.open(QIODevice::ReadOnly | QIODevice::Text))
@@ -102,10 +121,10 @@ void FetLoadFileDialog::on_buttonBox_accepted()
     errString += "Unable to open ";
     errString += filename;
     emit loadFileError(errString);
-qDebug() << "Unable to open " << filename;
+    qDebug() << errString;
     return;
   }
-
+  
   readWebcamFile(&webcamFile);
 }
 
@@ -326,3 +345,39 @@ QString FetLoadFileDialog::parseText(
 
   return textString;
 }
+
+
+#ifdef ANDROID_OS
+void FetLoadFileDialog::resizeEvent(
+  QResizeEvent *e)
+{
+  // Do the standard resize first:
+  QDialog::resizeEvent(e);
+
+  // Qt seems to be doing a very very bad job of updating the parent widget's
+  // width and height when the screen rotates.  So, we'll see what the
+  // orientation is, and swap width for height manually...
+
+  QWidget *parent = parentWidget();
+
+  if (!parent) return;
+
+  move(
+    (parent->width() - width()) / 2,
+    (parent->height() - height()) / 2);
+}
+#endif // ANDROID_OS
+
+
+#ifdef ANDROID_OS
+void FetLoadFileDialog::reposition()
+{
+  QWidget *parent = parentWidget();
+
+  if (!parent) return;
+
+  move(
+    (parent->width() - width()) / 2,
+    (parent->height() - height()) / 2);
+}
+#endif // ANDROID_OS

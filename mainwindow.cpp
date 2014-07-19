@@ -80,6 +80,8 @@ void MainWindow::setWebcamName(
 void MainWindow::resizeEvent(
   QResizeEvent *event)
 {
+  QMainWindow::resizeEvent(event);
+
   // Resize the image:
   webcamImage->manualResize();
 
@@ -95,8 +97,6 @@ void MainWindow::resizeEvent(
   {
     ui->stackedWidget->setCurrentIndex(2);
   }
-
-  event->accept();
 }
 
 

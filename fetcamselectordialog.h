@@ -46,7 +46,7 @@ public:
 
   ~FetCamSelectorDialog();
 
-  void populateList();
+  bool populateList();
 
   void chooseItem(
     int index);

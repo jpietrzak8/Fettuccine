@@ -28,7 +28,7 @@
 #include <QtGui/QApplication>
 #include <QWidget>
 #include "qmaemo5homescreenadaptor.h"
-#include "fetcamimage.h"
+#include "fetwidgetuiform.h"
 #else
 #include <QApplication>
 #endif // MAEMO_OS
@@ -59,22 +59,22 @@ int main(int argc, char *argv[])
   if (!runAsApp)
   {
     // Run as a widget:
-    FetCamImage image;
+    FetWidgetUIForm widget;
 
-    image.setupSettingsDialog();
+    widget.setupSettingsDialog();
 
     QMaemo5HomescreenAdaptor *adaptor =
-      new QMaemo5HomescreenAdaptor(&image);
+      new QMaemo5HomescreenAdaptor(&widget);
 
     adaptor->setSettingsAvailable(true);
 
     QObject::connect(
       adaptor,
       SIGNAL(settingsRequested()),
-      &image,
+      &widget,
       SLOT(showSettingsDialog()));
 
-    image.show();
+    widget.show();
 
     return app.exec();
   }

@@ -60,7 +60,7 @@ FetCamSelectorDialog::~FetCamSelectorDialog()
 }
 
 
-void FetCamSelectorDialog::populateList()
+bool FetCamSelectorDialog::populateList()
 {
   QSettings settings("pietrzak.org", "Fettuccine");
 
@@ -70,8 +70,8 @@ void FetCamSelectorDialog::populateList()
   {
     // Initialize the array with some default values:
     settings.endArray();
-    populateDefaultWebcams();
-    return;
+//    populateDefaultWebcams();
+    return false;
   }
 
   int index = 0;
@@ -137,6 +137,8 @@ void FetCamSelectorDialog::populateList()
   }
 
   settings.endArray();
+
+  return true;
 }
 
 

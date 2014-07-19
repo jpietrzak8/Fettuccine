@@ -1,3 +1,10 @@
+fettuccine (0.9.3) unstable; urgency=low
+  * A widget overlay interface has been added, with a few basic controls.  These controls can be enabled or hidden from the widget options dialog box.
+  * A more complete default list of webcams now ships with the app.  Also, you can now reset back to this list from the "Import Webcam List" dialog box.
+  * Authentication support has been improved slightly, with the option now to continue loading a webcam despite SSL errors.
+
+ -- John Pietrzak <jpietrzak8@gmail.com>  Sat, 19 Jul 2014 13:39:59 -0400
+
 fettuccine (0.9.2) unstable; urgency=low
   * Basic authentication now supported, for webcams that require a username and password.
 

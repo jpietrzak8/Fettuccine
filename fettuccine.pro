@@ -36,7 +36,9 @@ SOURCES += main.cpp mainwindow.cpp \
     qmaemo5homescreenadaptor.cpp \
     fetaboutdialog.cpp \
     fetdbus.cpp \
-    fetauthenticationdialog.cpp
+    fetauthenticationdialog.cpp \
+    fetsslerrorsdialog.cpp \
+    fetwidgetuiform.cpp
 HEADERS += mainwindow.h \
     fetcamwidgetitem.h \
     fetcamselectordialog.h \
@@ -50,7 +52,9 @@ HEADERS += mainwindow.h \
     qmaemo5homescreenadaptor.h \
     fetaboutdialog.h \
     fetdbus.h \
-    fetauthenticationdialog.h
+    fetauthenticationdialog.h \
+    fetsslerrorsdialog.h \
+    fetwidgetuiform.h
 FORMS += mainwindow.ui \
     fetcamselectordialog.ui \
     fetcaminfodialog.ui \
@@ -58,7 +62,9 @@ FORMS += mainwindow.ui \
     fetloadfiledialog.ui \
     fetwidgetsettingsdialog.ui \
     fetaboutdialog.ui \
-    fetauthenticationdialog.ui
+    fetauthenticationdialog.ui \
+    fetsslerrorsdialog.ui \
+    fetwidgetuiform.ui
 
 # Please do not modify the following two lines. Required for deployment.
 include(deployment.pri)
@@ -80,7 +86,8 @@ OTHER_FILES += \
     qtc_packaging/debian_fremantle/changelog \
     README.md \
     COPYING \
-    LICENSE.md
+    LICENSE.md \
+    fettuccine.xml
 
 RESOURCES += \
     fettuccine.qrc

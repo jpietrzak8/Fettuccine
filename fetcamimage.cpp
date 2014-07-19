@@ -33,7 +33,6 @@
 #include "fetcaminfodialog.h"
 #include "fetloadfiledialog.h"
 #include "fetcamwidgetitem.h"
-#include "fetwidgetsettingsdialog.h"
 #include "fetmessenger.h"
 #include <QTimer>
 #include <QUrl>
@@ -42,6 +41,7 @@
 #include <QSettings>
 #include "fetauthenticationdialog.h"
 #include <QAuthenticator>
+#include "fetsslerrorsdialog.h"
 
 #include <QDebug>
 
@@ -55,7 +55,6 @@ FetCamImage::FetCamImage(
     tagDialog(0),
     infoDialog(0),
     loadFileDialog(0),
-    settingsDialog(0),
     messenger(0),
     currentReply(0),
     timer(0),
@@ -154,7 +153,10 @@ FetCamImage::FetCamImage(
     this,
     SLOT(retrieveImage()));
 
-  selectorDialog->populateList();
+  if (!selectorDialog->populateList())
+  {
+    loadFileDialog->loadDefaultList();
+  }
 
   QSettings settings("pietrzak.org", "Fettuccine");
 
@@ -195,7 +197,6 @@ FetCamImage::~FetCamImage()
 
   if (timer) delete timer;
   if (messenger) delete messenger;
-  if (settingsDialog) delete settingsDialog;
   if (loadFileDialog) delete loadFileDialog;
   if (infoDialog) delete infoDialog;
   if (tagDialog) delete tagDialog;
@@ -212,49 +213,20 @@ QSize FetCamImage::sizeHint() const
 }
 
 
-void FetCamImage::setupSettingsDialog()
+void FetCamImage::resizeDialogs(
+  int dialogWidth,
+  int dialogHeight)
 {
-  // Apparently, widget dialogs must not be parented?
-  settingsDialog = new FetWidgetSettingsDialog();
-
-  connect(
-    settingsDialog,
-    SIGNAL(selectWebcam()),
-    this,
-    SLOT(selectWebcam()));
-
-  connect(
-    settingsDialog,
-    SIGNAL(filterByCategory()),
-    this,
-    SLOT(filterByCategory()));
-
-  connect(
-    settingsDialog,
-    SIGNAL(displayWebcamInfo()),
-    this,
-    SLOT(displayWebcamInfo()));
-
-  connect(
-    settingsDialog,
-    SIGNAL(importWebcamList()),
-    this,
-    SLOT(importWebcamList()));
-
-  connect(
-    settingsDialog,
-    SIGNAL(newSize(int, int)),
-    this,
-    SLOT(changeSizeTo(int, int)));
+  selectorDialog->resize(dialogWidth, dialogHeight);
+  tagDialog->resize(dialogWidth, dialogHeight);
+  infoDialog->resize(dialogWidth, dialogHeight);
 }
 
 
-void FetCamImage::changeSizeTo(
-  int width,
-  int height)
+void FetCamImage::sendMessage(
+  QString message)
 {
-  // Hopefully, this will be enough:
-  resize(width, height);
+  messenger->sendMessage(message);
 }
 
 
@@ -332,13 +304,6 @@ void FetCamImage::updateWidget(
 
   reply->deleteLater();
   currentReply = 0; // this is a hack
-}
-
-
-// This will probably only be used on Maemo, right?
-void FetCamImage::showSettingsDialog()
-{
-  settingsDialog->exec();
 }
 
 
@@ -630,5 +595,23 @@ qDebug() << "QNetworkReply Error: " << error;
 void FetCamImage::handleReplySslErrors(
   QList<QSslError> errors)
 {
-qDebug() << "SSL Errors: " << errors;
+  FetSSLErrorsDialog sed;
+  sed.setErrors(errors);
+  sed.exec();
+
+  if (sed.continueLoadingImage())
+  {
+    currentReply->ignoreSslErrors();
+  }
+  else
+  {
+    // Cancel the current request:
+    timer->stop();
+    if (currentReply)
+    {
+      currentReply->abort();
+      currentReply->deleteLater();
+      currentReply = 0;
+    }
+  }
 }

@@ -23,6 +23,8 @@ public:
   explicit FetLoadFileDialog(QWidget *parent = 0);
   ~FetLoadFileDialog();
 
+  void loadDefaultList();
+
 signals:
   void newCamList(
     FetCamCollection camList);
@@ -45,6 +47,8 @@ private slots:
   void marshalReply();
 
 private:
+  void loadFile();
+
   void readWebcamFile(
     QIODevice *webcamFile);
 

@@ -44,7 +44,6 @@ class FetCamSelectorDialog;
 class FetTagDialog;
 class FetCamInfoDialog;
 class FetLoadFileDialog;
-class FetWidgetSettingsDialog;
 class FetCamWidgetItem;
 class QTimer;
 class QNetworkReply;
@@ -64,7 +63,9 @@ public:
 
   QSize sizeHint() const;
 
-  void setupSettingsDialog();
+  void resizeDialogs(
+    int dialogWidth,
+    int dialogHeight);
 
   void setImage(
     const QByteArray &imageByteArray);
@@ -75,16 +76,14 @@ public:
   void prevImage();
   void openHomepage();
 
+  void sendMessage(
+    QString message);
+
 public slots:
   void selectWebcam();
   void filterByCategory();
   void displayWebcamInfo();
   void importWebcamList();
-  void showSettingsDialog();
-
-  void changeSizeTo(
-    int width,
-    int height);
 
 signals:
   void newWebcamName(QString);
@@ -128,7 +127,6 @@ private:
   FetTagDialog *tagDialog;
   FetCamInfoDialog *infoDialog;
   FetLoadFileDialog *loadFileDialog;
-  FetWidgetSettingsDialog *settingsDialog;
   FetMessenger *messenger;
 
   QNetworkAccessManager qnam;

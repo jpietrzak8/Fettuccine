@@ -56,3 +56,13 @@ void FetWidgetSettingsDialog::on_buttonBox_accepted()
     ui->widthSpinBox->value(),
     ui->heightSpinBox->value());
 }
+
+void FetWidgetSettingsDialog::on_navCheckBox_toggled(bool checked)
+{
+  emit enableNavigation(checked);
+}
+
+void FetWidgetSettingsDialog::on_labelCheckBox_toggled(bool checked)
+{
+  emit enableTitle(checked);
+}

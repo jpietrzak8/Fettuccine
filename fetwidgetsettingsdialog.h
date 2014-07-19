@@ -26,12 +26,18 @@ signals:
   void displayWebcamInfo();
   void importWebcamList();
   void newSize(int width, int height);
+  void enableNavigation(bool nav);
+  void enableTitle(bool title);
   
 private slots:
   void on_listWidget_itemClicked(
     QListWidgetItem *item);
 
   void on_buttonBox_accepted();
+
+  void on_navCheckBox_toggled(bool checked);
+
+  void on_labelCheckBox_toggled(bool checked);
 
 private:
   Ui::FetWidgetSettingsDialog *ui;
