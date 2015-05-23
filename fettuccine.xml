@@ -454,4 +454,22 @@
   <tag>Ocean</tag>
  </webcam>
 
+ <webcam
+  link="http://216.8.159.21/mjpg/video.mjpg"
+  webcamType="MJpeg"
+  maxImages="10"
+  slideshowDelay="1"
+  homepage="http://216.8.159.21"
+  refreshRate="30">
+  <name>Detroit - Windsor Tunnel</name>
+ </webcam>
+
+ <webcam
+  link="http://76.10.86.11/mjpg/video.mjpg?camera=1"
+  webcamType="MJpeg"
+  homepage="http://76.10.86.11"
+  refreshRate="1">
+  <name>Devils Lake, North Dakota</name>
+ </webcam>
+
 </fettuccine>

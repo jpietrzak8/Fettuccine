@@ -76,15 +76,15 @@ void FetCamInfoDialog::setupDialog(
     ui->nameLabel->setText(name);
   }
 
-  ui->linkLabel->setText(link);
+  ui->linkTextBrowser->setText(link);
 
   if (item->getHomepage().isEmpty())
   {
-    ui->homepageLabel->setText(link);
+    ui->hpTextBrowser->setText(link);
   }
   else
   {
-    ui->homepageLabel->setText(homepage);
+    ui->hpTextBrowser->setText(homepage);
   }
 
   ui->rateLabel->setText(QString::number(item->getRefreshRate()));

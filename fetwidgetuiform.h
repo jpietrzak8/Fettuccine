@@ -56,9 +56,6 @@ private slots:
   void on_nextButton_clicked();
   void on_prevButton_clicked();
 
-  void setWebcamName(
-    QString name);
-
   void changeSizeTo(
     int width,
     int height);
@@ -68,6 +65,9 @@ private slots:
 
   void displayTitle(
     bool showTitle);
+
+  void setWebcamName(
+    QString name);
 
 private:
   Ui::FetWidgetUIForm *ui;

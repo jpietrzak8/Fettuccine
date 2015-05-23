@@ -58,6 +58,8 @@ MainWindow::MainWindow(
     SIGNAL(newWebcamName(QString)),
     this,
     SLOT(setWebcamName(QString)));
+
+  webcamImage->loadFirstImage();
 }
 
 
@@ -80,7 +82,7 @@ void MainWindow::setWebcamName(
 void MainWindow::resizeEvent(
   QResizeEvent *event)
 {
-  QMainWindow::resizeEvent(event);
+//  QMainWindow::resizeEvent(event);
 
   // Resize the image:
   webcamImage->manualResize();

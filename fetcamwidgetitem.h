@@ -31,16 +31,35 @@
 
 typedef QSet<QString> TagCollection;
 
+enum FetWebcamType
+{
+  Static_Webcam,
+  MJpeg_Webcam
+};
+
 class FetCamWidgetItem: public QListWidgetItem
 {
 public:
   FetCamWidgetItem(
     QString displayName,
     QString link,
+    FetWebcamType type,
+    int maxImages,
+    int slideshowDelay,
     QString homepage,
     int refreshRate);
 
   FetCamWidgetItem(
+    QString link,
+    FetWebcamType type,
+    int maxImages,
+    int slideshowDelay,
+    QString homepage,
+    int refreshRate);
+
+  // Convenience constructor for static webcams:
+  FetCamWidgetItem(
+    QString displayName,
     QString link,
     QString homepage,
     int refreshRate);
@@ -51,26 +70,35 @@ public:
   void addTag(
     QString tag);
 
-  QString getName() {return displayName;}
+  QString getName() const {return displayName;}
 
-  QString getLink() {return link;}
+  QString getLink() const {return link;}
 
-  QString getHomepage() {return homepage;}
+  FetWebcamType getWebcamType() const {return webcamType;}
 
-  int getRefreshRate() {return refreshRate;}
+  int getMaxImages() const {return maxMJpegImages;}
+
+  int getSlideshowDelay() const {return slideshowDelay;}
+
+  QString getHomepage() const {return homepage;}
+
+  int getRefreshRate() const {return refreshRate;}
 
   bool hasTag(
-    QString tag);
+    QString tag) const;
 
   void storeData(
     QSettings &settings);
 
-  TagCollection::const_iterator tagsBegin() {return tags.begin();}
-  TagCollection::const_iterator tagsEnd() {return tags.end();}
+  TagCollection::const_iterator tagsBegin() const {return tags.begin();}
+  TagCollection::const_iterator tagsEnd() const {return tags.end();}
 
 private:
   QString displayName;
   QString link;
+  FetWebcamType webcamType;
+  int maxMJpegImages;
+  int slideshowDelay;
   QString homepage;
   int refreshRate;
   TagCollection tags;

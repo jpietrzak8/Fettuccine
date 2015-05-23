@@ -32,6 +32,8 @@ FetWidgetUIForm::FetWidgetUIForm(
     SIGNAL(newWebcamName(QString)),
     this,
     SLOT(setWebcamName(QString)));
+
+  webcamImage->loadFirstImage();
 }
 
 

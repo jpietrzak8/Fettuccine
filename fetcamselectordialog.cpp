@@ -78,6 +78,9 @@ bool FetCamSelectorDialog::populateList()
 
   QString name;
   QString link;
+  FetWebcamType webcamType;
+  int maxImages;
+  int slideshowDelay;
   QString homepage;
   int refreshRate;
   while (index < size)
@@ -90,6 +93,21 @@ bool FetCamSelectorDialog::populateList()
     if (name.isEmpty())
     {
       name = link;
+    }
+
+    webcamType = (FetWebcamType)settings.value("webcamType").toInt();
+
+    maxImages = settings.value("maxImages").toInt();
+    if (!maxImages)
+    {
+      maxImages = 1;
+    }
+//qDebug() << "maxImages: " << maxImages;
+
+    slideshowDelay = settings.value("slideshowDelay").toInt();
+    if (!slideshowDelay)
+    {
+      slideshowDelay = 1;
     }
 
     homepage = settings.value("homepage").toString();
@@ -105,7 +123,14 @@ bool FetCamSelectorDialog::populateList()
     }
 
     FetCamWidgetItem *item = 
-      new FetCamWidgetItem(name, link, homepage, refreshRate);
+      new FetCamWidgetItem(
+        name,
+        link,
+        webcamType,
+        maxImages,
+        slideshowDelay,
+        homepage,
+        refreshRate);
 
     // Read the tag array:
     int tagSize = settings.beginReadArray("tags");
@@ -483,19 +508,31 @@ void FetCamSelectorDialog::clearWebcams()
 }
 
 
+/*
 void FetCamSelectorDialog::addNewWebcam(
   QString name,
   QString link,
+  FetWebcamType webcamType,
+  int maxImages,
+  int slideshowDelay,
   QString homepage,
   int refreshRate)
 {
   FetCamWidgetItem *item = 
-    new FetCamWidgetItem(name, link, homepage, refreshRate);
+    new FetCamWidgetItem(
+      name,
+      link,
+      webcamType,
+      maxImages,
+      slideshowDelay,
+      homepage,
+      refreshRate);
 
   ui->webcamListWidget->addItem(item);
 
   emit showWebcam(item);
 }
+*/
 
 
 void FetCamSelectorDialog::filterList(

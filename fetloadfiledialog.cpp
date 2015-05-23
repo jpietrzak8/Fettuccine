@@ -121,7 +121,7 @@ void FetLoadFileDialog::loadFile()
     errString += "Unable to open ";
     errString += filename;
     emit loadFileError(errString);
-    qDebug() << errString;
+    qWarning() << errString;
     return;
   }
   
@@ -225,6 +225,9 @@ void FetLoadFileDialog::parseFettuccineElement(
   FetCamCollection &camList)
 {
   QString link;
+  FetWebcamType webcamType = Static_Webcam;
+  int maxImages = 1;
+  int slideshowDelay = 1;
   QString homepage;
   int refreshRate = 30; // default to 30 seconds.
 
@@ -239,6 +242,31 @@ void FetLoadFileDialog::parseFettuccineElement(
         if (webcamReader.attributes().hasAttribute("link"))
         {
           link = webcamReader.attributes().value("link").toString();
+        }
+
+        if (webcamReader.attributes().hasAttribute("webcamType"))
+        {
+          QString typeString = 
+              webcamReader.attributes().value("webcamType").toString();
+
+          if (typeString == "Static")
+          {
+            webcamType = Static_Webcam;
+          }
+          else if (typeString == "MJpeg")
+          {
+            webcamType = MJpeg_Webcam;
+          }
+        }
+
+        if (webcamReader.attributes().hasAttribute("maxImages"))
+        {
+          maxImages = webcamReader.attributes().value("maxImages").toString().toInt();
+        }
+
+        if (webcamReader.attributes().hasAttribute("slideshowDelay"))
+        {
+          slideshowDelay = webcamReader.attributes().value("slideshowDelay").toString().toInt();
         }
 
         if (webcamReader.attributes().hasAttribute("homepage"))
@@ -257,13 +285,16 @@ void FetLoadFileDialog::parseFettuccineElement(
         }
 
         FetCamWidgetItem *item =
-          new FetCamWidgetItem(link, homepage, refreshRate);
+          new FetCamWidgetItem(
+            link, webcamType, maxImages, slideshowDelay, homepage, refreshRate);
 
         parseWebcamElement(webcamReader, item);
 
         camList.append(item);
 
         link.clear();
+        maxImages = 1;
+        slideshowDelay = 1;
         homepage.clear();
         refreshRate = 30;
       }

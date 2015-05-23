@@ -1,3 +1,8 @@
+fettuccine (0.9.4) unstable; urgency=low
+  * Added initial support for MJpeg webcams.  (This will need more work.)
+
+ -- John Pietrzak <jpietrzak8@gmail.com>  Sat, 23 May 2015 08:25:29 -0400
+
 fettuccine (0.9.3) unstable; urgency=low
   * A widget overlay interface has been added, with a few basic controls.  These controls can be enabled or hidden from the widget options dialog box.
   * A more complete default list of webcams now ships with the app.  Also, you can now reset back to this list from the "Import Webcam List" dialog box.

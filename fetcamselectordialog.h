@@ -29,7 +29,6 @@
 #include "fetcamwidgetitem.h"
 
 class QListWidgetItem;
-class FetCamWidgetItem;
 class QResizeEvent;
 
 namespace Ui {
@@ -68,11 +67,16 @@ public:
 #endif // ANDROID_OS
 
 public slots:
+/*
   void addNewWebcam(
     QString name,
     QString link,
+    FetWebcamType webcamType,
+    int maxImages,
+    int slideshowDelay,
     QString homepage,
     int refreshRate);
+*/
 
   void loadWebcams(
     FetCamCollection camList);

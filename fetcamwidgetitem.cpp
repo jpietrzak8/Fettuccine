@@ -22,14 +22,22 @@
 
 #include "fetcamwidgetitem.h"
 
+//#include <QDebug>
+
 FetCamWidgetItem::FetCamWidgetItem(
   QString n,
   QString l,
+  FetWebcamType type,
+  int maxImages,
+  int sd,
   QString h,
   int r)
   : QListWidgetItem(n),
     displayName(n),
     link(l),
+    webcamType(type),
+    maxMJpegImages(maxImages),
+    slideshowDelay(sd),
     homepage(h),
     refreshRate(r)
 {
@@ -39,11 +47,35 @@ FetCamWidgetItem::FetCamWidgetItem(
 
 FetCamWidgetItem::FetCamWidgetItem(
   QString l,
+  FetWebcamType type,
+  int maxImages,
+  int sd,
   QString h,
   int r)
   : QListWidgetItem("Unnamed Webcam"),
     displayName("Unnamed Webcam"),
     link(l),
+    webcamType(type),
+    maxMJpegImages(maxImages),
+    slideshowDelay(sd),
+    homepage(h),
+    refreshRate(r)
+{
+  setSizeHint(QSize(0, 50));
+}
+
+
+FetCamWidgetItem::FetCamWidgetItem(
+  QString n,
+  QString l,
+  QString h,
+  int r)
+  : QListWidgetItem(n),
+    displayName(n),
+    link(l),
+    webcamType(Static_Webcam),
+    maxMJpegImages(1),
+    slideshowDelay(1),
     homepage(h),
     refreshRate(r)
 {
@@ -68,7 +100,7 @@ void FetCamWidgetItem::addTag(
 
 
 bool FetCamWidgetItem::hasTag(
-  QString tag)
+  QString tag) const
 {
   return tags.contains(tag);
 }
@@ -79,6 +111,9 @@ void FetCamWidgetItem::storeData(
 {
   settings.setValue("name", displayName);
   settings.setValue("link", link);
+  settings.setValue("webcamType", webcamType);
+  settings.setValue("maxImages", maxMJpegImages);
+  settings.setValue("slideshowDelay", slideshowDelay);
   settings.setValue("homepage", homepage);
   settings.setValue("refresh_rate", refreshRate);
 

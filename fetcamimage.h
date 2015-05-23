@@ -30,10 +30,14 @@
 #include <QList>
 #include <QSslError>
 #include <QNetworkReply>
+#include "fetcamwidgetitem.h"
+#include <QTimer>
 
 #ifdef MAEMO_OS
 #include "fetdbus.h"
 #endif // MAEMO_OS
+
+typedef QList<QPixmap> PixmapList;
 
 class QWidget;
 class QByteArray;
@@ -44,8 +48,6 @@ class FetCamSelectorDialog;
 class FetTagDialog;
 class FetCamInfoDialog;
 class FetLoadFileDialog;
-class FetCamWidgetItem;
-class QTimer;
 class QNetworkReply;
 class QResizeEvent;
 class FetAuthenticationDialog;
@@ -60,6 +62,8 @@ public:
     QWidget *parent = 0);
 
   ~FetCamImage();
+
+  void loadFirstImage();
 
   QSize sizeHint() const;
 
@@ -117,7 +121,23 @@ private slots:
   void handleReplySslErrors(
     QList<QSslError> errors);
 
+  void parseMJpegData();
+
+  void displayNextSlide();
+
 private:
+  bool parseUnknownStreamBoundary();
+
+  bool parseWebcamXPStreamBoundary();
+
+  bool parseGenericStreamBoundary();
+
+  void parseMJpegImage();
+
+  void startupSlideshow();
+
+  void displaySlide();
+
   QByteArray *imageData;
   QBuffer *imageBuffer;
   QMovie *currentMovie;
@@ -132,16 +152,46 @@ private:
   QNetworkAccessManager qnam;
   QNetworkReply *currentReply;
 
-  QTimer *timer;
+  QTimer timer;
 
   QString currentWebcamUrl;
   QString currentWebcamHomepage;
+  FetWebcamType currentWebcamType;
   int currentTimerInterval;
   int numberOfRedirections;
   bool networkAccessible;
   bool sleeping;
 
   FetAuthenticationDialog *authDialog;
+
+  // MJpeg data:
+  enum FetMjpegState
+  {
+    ParsingBoundary_State,
+    ParsingJpeg_State,
+    FinishedParsing_State
+  };
+
+  FetMjpegState mjpegState;
+
+  enum FetMjpegStreamType
+  {
+    Unknown_Stream,
+    WebcamXP_Stream,
+    MJpeg_Stream
+  };
+
+  FetMjpegStreamType streamType;
+
+//  QRegExp timestampRegExp;
+
+  QTimer slideshowTimer;
+  int slideshowTimerInterval;
+  QByteArray mjpegByteArray;
+  int currentMJpegImageSize;
+  PixmapList mjpegPixmaps;
+  PixmapList::iterator currentMJpegPixmap;
+  int maxMJpegListSize;
 
 #ifdef MAEMO_OS
   FetDBus dbusListener;

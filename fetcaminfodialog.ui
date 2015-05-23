@@ -49,12 +49,12 @@
       </widget>
      </item>
      <item>
-      <widget class="QLabel" name="linkLabel">
-       <property name="text">
-        <string>Link to webcam image</string>
+      <widget class="QTextBrowser" name="linkTextBrowser">
+       <property name="verticalScrollBarPolicy">
+        <enum>Qt::ScrollBarAlwaysOff</enum>
        </property>
-       <property name="wordWrap">
-        <bool>true</bool>
+       <property name="horizontalScrollBarPolicy">
+        <enum>Qt::ScrollBarAlwaysOff</enum>
        </property>
        <property name="openExternalLinks">
         <bool>true</bool>
@@ -79,12 +79,12 @@
       </widget>
      </item>
      <item>
-      <widget class="QLabel" name="homepageLabel">
-       <property name="text">
-        <string>Link to webcam homepage</string>
+      <widget class="QTextBrowser" name="hpTextBrowser">
+       <property name="verticalScrollBarPolicy">
+        <enum>Qt::ScrollBarAlwaysOff</enum>
        </property>
-       <property name="wordWrap">
-        <bool>true</bool>
+       <property name="horizontalScrollBarPolicy">
+        <enum>Qt::ScrollBarAlwaysOff</enum>
        </property>
        <property name="openExternalLinks">
         <bool>true</bool>
