@@ -87,7 +87,26 @@ OTHER_FILES += \
     README.md \
     COPYING \
     LICENSE.md \
-    fettuccine.xml
+    fettuccine.xml \
+    doc/documentation.html \
+    doc/about.html \
+    icons/FettuccineOne.svg \
+    icons/FetTag48.png \
+    icons/FetTag.svg \
+    icons/FetPrev48.png \
+    icons/FetPrev.svg \
+    icons/FetPlay48.png \
+    icons/FetPlay.svg \
+    icons/FetPause48.png \
+    icons/FetPause.svg \
+    icons/FetOpenUI48.png \
+    icons/FetOpenUI.svg \
+    icons/FetNext48.png \
+    icons/FetNext.svg \
+    icons/FetHome48.png \
+    icons/FetHome.svg \
+    icons/FetCloseUI48.png \
+    icons/FetCloseUI.svg
 
 RESOURCES += \
     fettuccine.qrc

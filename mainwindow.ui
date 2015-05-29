@@ -72,7 +72,7 @@
       </widget>
       <widget class="QWidget" name="hToolsPage">
        <layout class="QGridLayout" name="gridLayout_2">
-        <item row="0" column="1" rowspan="2">
+        <item row="0" column="1" rowspan="3">
          <layout class="QVBoxLayout" name="verticalLayout_3">
           <item>
            <widget class="QPushButton" name="hPrevButton">
@@ -147,7 +147,10 @@
            </widget>
           </item>
           <item>
-           <widget class="QPushButton" name="hHomeButton">
+           <widget class="QPushButton" name="hPlayPauseButton">
+            <property name="enabled">
+             <bool>true</bool>
+            </property>
             <property name="sizePolicy">
              <sizepolicy hsizetype="Fixed" vsizetype="MinimumExpanding">
               <horstretch>0</horstretch>
@@ -159,7 +162,7 @@
             </property>
             <property name="icon">
              <iconset resource="fettuccine.qrc">
-              <normaloff>:/icons/FetHome.svg</normaloff>:/icons/FetHome.svg</iconset>
+              <normaloff>:/icons/FetPause.svg</normaloff>:/icons/FetPause.svg</iconset>
             </property>
             <property name="iconSize">
              <size>
@@ -200,8 +203,11 @@
           </item>
          </layout>
         </item>
-        <item row="1" column="0">
+        <item row="2" column="0">
          <widget class="QLabel" name="hWebcamLabel">
+          <property name="enabled">
+           <bool>true</bool>
+          </property>
           <property name="sizePolicy">
            <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
             <horstretch>0</horstretch>
@@ -209,7 +215,7 @@
            </sizepolicy>
           </property>
           <property name="text">
-           <string>TextLabel</string>
+           <string>Name of Webcam</string>
           </property>
          </widget>
         </item>
@@ -226,12 +232,25 @@
           </property>
          </spacer>
         </item>
+        <item row="1" column="0">
+         <widget class="QLabel" name="hStatusLabel">
+          <property name="enabled">
+           <bool>true</bool>
+          </property>
+          <property name="text">
+           <string>Fettuccine Paused</string>
+          </property>
+         </widget>
+        </item>
        </layout>
       </widget>
       <widget class="QWidget" name="vToolsPage">
        <layout class="QGridLayout" name="gridLayout">
-        <item row="1" column="0">
+        <item row="2" column="0">
          <widget class="QLabel" name="vWebcamLabel">
+          <property name="enabled">
+           <bool>true</bool>
+          </property>
           <property name="sizePolicy">
            <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
             <horstretch>0</horstretch>
@@ -239,7 +258,7 @@
            </sizepolicy>
           </property>
           <property name="text">
-           <string>TextLabel</string>
+           <string>Name of Webcam</string>
           </property>
          </widget>
         </item>
@@ -256,7 +275,7 @@
           </property>
          </spacer>
         </item>
-        <item row="2" column="0">
+        <item row="3" column="0">
          <layout class="QHBoxLayout" name="horizontalLayout">
           <item>
            <widget class="QPushButton" name="vPrevButton">
@@ -331,7 +350,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QPushButton" name="vHomeButton">
+           <widget class="QPushButton" name="vPlayPauseButton">
             <property name="sizePolicy">
              <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
               <horstretch>0</horstretch>
@@ -343,7 +362,7 @@
             </property>
             <property name="icon">
              <iconset resource="fettuccine.qrc">
-              <normaloff>:/icons/FetHome.svg</normaloff>:/icons/FetHome.svg</iconset>
+              <normaloff>:/icons/FetPause.svg</normaloff>:/icons/FetPause.svg</iconset>
             </property>
             <property name="iconSize">
              <size>
@@ -383,6 +402,13 @@
            </widget>
           </item>
          </layout>
+        </item>
+        <item row="1" column="0">
+         <widget class="QLabel" name="vStatusLabel">
+          <property name="text">
+           <string>Fettuccine Paused</string>
+          </property>
+         </widget>
         </item>
        </layout>
       </widget>

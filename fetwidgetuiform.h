@@ -1,7 +1,7 @@
 //
 // fetwidgetuiform.h
 //
-// Copyright 2014 by John Pietrzak  (jpietrzak8@gmail.com)
+// Copyright 2014-2015 by John Pietrzak  (jpietrzak8@gmail.com)
 //
 // This file is part of Fettuccine.
 //
@@ -55,6 +55,7 @@ protected:
 private slots:
   void on_nextButton_clicked();
   void on_prevButton_clicked();
+  void on_statusButton_clicked();
 
   void changeSizeTo(
     int width,
@@ -69,11 +70,15 @@ private slots:
   void setWebcamName(
     QString name);
 
+  void pauseWidget();
+
 private:
   Ui::FetWidgetUIForm *ui;
 
   FetCamImage *webcamImage;
   FetWidgetSettingsDialog *settingsDialog;
+  int width;
+  int height;
 };
 
 #endif // FETWIDGETUIFORM_H

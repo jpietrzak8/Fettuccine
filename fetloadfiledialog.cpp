@@ -253,9 +253,17 @@ void FetLoadFileDialog::parseFettuccineElement(
           {
             webcamType = Static_Webcam;
           }
-          else if (typeString == "MJpeg")
+          else if (typeString == "MJpeg_Full")
           {
-            webcamType = MJpeg_Webcam;
+            webcamType = MJpegFull_Webcam;
+          }
+          else if (typeString == "MJpeg_Looped")
+          {
+            webcamType = MJpegLooped_Webcam;
+          }
+          else if (typeString == "MJpeg_Sampled")
+          {
+            webcamType = MJpegSampled_Webcam;
           }
         }
 

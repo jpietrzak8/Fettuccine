@@ -55,11 +55,12 @@ FetCamImage::FetCamImage(
     loadFileDialog(0),
     messenger(0),
     currentReply(0),
+    retrievalInProgress(false),
+    paused(false),
     currentWebcamType(Static_Webcam),
     currentTimerInterval(5000),
     numberOfRedirections(0),
     networkAccessible(true),
-    sleeping(false),
     authDialog(0),
     mjpegState(ParsingBoundary_State),
     streamType(Unknown_Stream),
@@ -172,14 +173,16 @@ FetCamImage::FetCamImage(
     &dbusListener,
     SIGNAL(timeToSleep()),
     this,
-    SLOT(enterSleepMode()));
+    SIGNAL(pauseDisplay()));
 
   // Turn back on when the screen comes back up:
+/*
   connect(
     &dbusListener,
     SIGNAL(timeToWakeUp()),
     this,
     SLOT(exitSleepMode()));
+*/
 #endif // MAEMO_OS
 }
 
@@ -234,11 +237,13 @@ void FetCamImage::resizeDialogs(
 }
 
 
+/*
 void FetCamImage::sendMessage(
   QString message)
 {
   messenger->sendMessage(message);
 }
+*/
 
 
 void FetCamImage::retrieveImage()
@@ -247,6 +252,7 @@ void FetCamImage::retrieveImage()
   {
     currentReply->abort();
     currentReply->deleteLater();
+    currentReply = 0;
   }
 
   // Stop any ongoing slideshow:
@@ -254,6 +260,8 @@ void FetCamImage::retrieveImage()
 
 //qDebug() << "currentWebcamUrl: " << currentWebcamUrl;
   currentReply = qnam.get(QNetworkRequest(QUrl(currentWebcamUrl)));
+
+  retrievalInProgress = true;
 
   connect(
     currentReply,
@@ -267,7 +275,9 @@ void FetCamImage::retrieveImage()
     this,
     SLOT(handleReplySslErrors(QList<QSslError>)));
 
-  if (currentWebcamType == MJpeg_Webcam)
+  if ( (currentWebcamType == MJpegSampled_Webcam)
+    || (currentWebcamType == MJpegLooped_Webcam)
+    || (currentWebcamType == MJpegFull_Webcam))
   {
     // Clear any existing MJpeg data:
     mjpegPixmaps.clear();
@@ -313,6 +323,8 @@ void FetCamImage::updateWidget(
       messenger->sendMessage("Too many URL redirections, cannot load image.");
       // reset the counter:
       numberOfRedirections = 0;
+      // stop the presses:
+      emit pauseDisplay();
       return;
     }
     else
@@ -334,8 +346,13 @@ void FetCamImage::updateWidget(
   // We should have an image at this point.
   switch (currentWebcamType)
   {
-  case MJpeg_Webcam:
+  case MJpegSampled_Webcam:
+  case MJpegLooped_Webcam:
     startupSlideshow();
+    break;
+
+  case MJpegFull_Webcam:
+    // Images are displayed as fast as we get them. Nothing to do here.
     break;
 
   case Static_Webcam:
@@ -346,6 +363,7 @@ void FetCamImage::updateWidget(
 
   reply->deleteLater();
   currentReply = 0; // this is a hack
+  retrievalInProgress = false;
 }
 
 
@@ -417,9 +435,13 @@ void FetCamImage::loadWebcam(
   emit newWebcamName(item->getName());
   currentTimerInterval = item->getRefreshRate() * 1000;
 
-  retrieveImage();
+  // Only load webcam if we are not currently paused:
+  if (!paused)
+  {
+    retrieveImage();
 
-  timer.start(currentTimerInterval);
+    timer.start(currentTimerInterval);
+  }
 }
 
 
@@ -454,6 +476,8 @@ void FetCamImage::setImage(
   if (!ir.canRead())
   {
     messenger->sendMessage("Unable to display webcam picture");
+    // Stop the presses, let the user try and fix things:
+    emit pauseDisplay();
     return;
   }
 
@@ -538,6 +562,9 @@ void FetCamImage::resizeEvent(
 void FetCamImage::parseNetworkAccessibility(
   QNetworkAccessManager::NetworkAccessibility access)
 {
+  // If we're not currently retrieving any data, just ignore these signals:
+  if (!retrievalInProgress) return;
+
   if (access == QNetworkAccessManager::Accessible)
   {
     // If the network was previously inaccessible, restart:
@@ -546,7 +573,7 @@ void FetCamImage::parseNetworkAccessibility(
       networkAccessible = true;
 
       // But only restart if we are not sleeping:
-      if (!sleeping)
+      if (!paused)
       {
         timer.start(currentTimerInterval);
       }
@@ -559,6 +586,7 @@ void FetCamImage::parseNetworkAccessibility(
     {
       networkAccessible = false;
 
+/*
       timer.stop();
 
       if (currentReply)
@@ -567,6 +595,13 @@ void FetCamImage::parseNetworkAccessibility(
         currentReply->deleteLater();
         currentReply = 0;
       }
+*/
+
+      // Tell the user:
+      messenger->sendMessage("Fettuccine failed to access internet.");
+
+      // Instead of stopping locally, have the parent pause the display:
+      emit pauseDisplay();
     }
   }
 }
@@ -575,7 +610,7 @@ void FetCamImage::parseNetworkAccessibility(
 void FetCamImage::enterSleepMode()
 {
   // Shut down the timer, and abort any current requests:
-  sleeping = true;
+  paused = true;
 
   timer.stop();
 
@@ -587,12 +622,14 @@ void FetCamImage::enterSleepMode()
   }
 
   slideshowTimer.stop();
+
+  retrievalInProgress = false;
 }
 
 
 void FetCamImage::exitSleepMode()
 {
-  sleeping = false;
+  paused = false;
 
   // First check if the network is accessible:
   if (networkAccessible)
@@ -626,6 +663,7 @@ void FetCamImage::performAuthentication(
   else
   {
     // Cancel the current request:
+/*
     timer.stop();
     if (currentReply)
     {
@@ -633,6 +671,10 @@ void FetCamImage::performAuthentication(
       currentReply->deleteLater();
       currentReply = 0;
     }
+*/
+
+    messenger->sendMessage("Authentication failed for webcam access.");
+    emit pauseDisplay();
   }
 }
 
@@ -668,6 +710,7 @@ void FetCamImage::handleReplySslErrors(
   else
   {
     // Cancel the current request:
+/*
     timer.stop();
     if (currentReply)
     {
@@ -675,6 +718,10 @@ void FetCamImage::handleReplySslErrors(
       currentReply->deleteLater();
       currentReply = 0;
     }
+*/
+
+    messenger->sendMessage("SSL error when connecting to webcam.");
+    emit pauseDisplay();
   }
 }
 
@@ -741,6 +788,8 @@ bool FetCamImage::parseUnknownStreamBoundary()
     else
     {
       mjpegState = ParsingJpeg_State;
+      // Ensure that the mjpeg buffer is cleared out before parsing:
+      mjpegByteArray.clear();
     }
   }
   else
@@ -777,6 +826,8 @@ bool FetCamImage::parseWebcamXPStreamBoundary()
     else
     {
       mjpegState = ParsingJpeg_State;
+      // Ensure that the mjpeg buffer is cleared out before parsing:
+      mjpegByteArray.clear();
     }
   }
 
@@ -807,6 +858,8 @@ bool FetCamImage::parseGenericStreamBoundary()
       mjpegState = ParsingJpeg_State;
       // skip the next line:
       borderString = currentReply->readLine();
+      // Ensure that the mjpeg buffer is cleared out before parsing:
+      mjpegByteArray.clear();
       break;
     }
 /*
@@ -825,6 +878,8 @@ bool FetCamImage::parseGenericStreamBoundary()
       // skip the next line:
       borderString = currentReply->readLine();
       // break out of loop:
+      // Ensure that the mjpeg buffer is cleared out before parsing:
+      mjpegByteArray.clear();
       break;
     }
 */
@@ -836,23 +891,34 @@ bool FetCamImage::parseGenericStreamBoundary()
 
 void FetCamImage::parseMJpegImage()
 {
+  QPixmap pixmap;
+
+//qDebug() << "array size: " << mjpegByteArray.size();
+//qDebug() << "image size: " << currentMJpegImageSize;
+
   mjpegByteArray.append(
     currentReply->read(
       currentMJpegImageSize - mjpegByteArray.size()));
 
-//qDebug() << "array size: " << mjpegByteArray.size();
-
   if (mjpegByteArray.size() == currentMJpegImageSize)
   {
-    QPixmap pixmap;
     if (!pixmap.loadFromData(mjpegByteArray))
     {
       qWarning() << "Failed to load MJpeg pixmap";
     }
     else
     {
-      // append this image to the list:
-      mjpegPixmaps.append(pixmap);
+      if (currentWebcamType == MJpegFull_Webcam)
+      {
+        // Just dump this image directly into the display:
+        setPixmap(
+          pixmap.scaled(width(), height(), Qt::KeepAspectRatio));
+      }
+      else
+      {
+        // append this image to the list:
+        mjpegPixmaps.append(pixmap);
+      }
     }
 //qDebug() << "got an image";
 
@@ -873,12 +939,19 @@ void FetCamImage::parseMJpegImage()
       // Don't need any more images:
       mjpegState = FinishedParsing_State;
 
-      // Go ahead and abort the network transaction here,
-      // and start the slideshow with what we've got.
-      if (currentReply)
+      if ( (currentWebcamType == MJpegSampled_Webcam)
+        || (currentWebcamType == MJpegLooped_Webcam))
       {
-        currentReply->abort();
-        startupSlideshow();
+        // Go ahead and abort the network transaction here,
+        // and start the slideshow with what we've got.
+        if (currentReply)
+        {
+          currentReply->abort();
+          currentReply->deleteLater();
+          currentReply = 0;
+          retrievalInProgress = false;
+          startupSlideshow();
+        }
       }
     }
   }
@@ -892,13 +965,13 @@ void FetCamImage::startupSlideshow()
 
   currentMJpegPixmap = mjpegPixmaps.begin();
 
-  if (maxMJpegListSize > 1)
+  // If there are multiple images, start looping through them:
+  if (mjpegPixmaps.size() > 1)
   {
     slideshowTimer.start(slideshowTimerInterval);
   }
 
   // Show the first slide immediately:
-  currentMJpegPixmap = mjpegPixmaps.begin();
   displaySlide();
 }
 
@@ -912,10 +985,8 @@ void FetCamImage::displaySlide()
     return;
   }
 
-  currentPixmap = *currentMJpegPixmap;
-
   setPixmap(
-    currentPixmap.scaled(width(), height(), Qt::KeepAspectRatio));
+    (*currentMJpegPixmap).scaled(width(), height(), Qt::KeepAspectRatio));
 }
 
 

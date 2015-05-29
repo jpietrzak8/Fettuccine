@@ -16,5 +16,7 @@
         <file>doc/documentation.html</file>
         <file>fettuccine64.png</file>
         <file>fettuccine.xml</file>
+        <file>icons/FetPlay.svg</file>
+        <file>icons/FetPause.svg</file>
     </qresource>
 </RCC>

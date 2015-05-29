@@ -38,12 +38,17 @@ MainWindow::MainWindow(
   : QMainWindow(parent),
     ui(new Ui::MainWindow),
     controlsHidden(true),
+    paused(false),
     webcamImage(0)
 {
   ui->setupUi(this);
 
   // Just to be certain, set the stackedWidget index:
   ui->stackedWidget->setCurrentIndex(0);
+
+  // Also, hide the status label:
+  ui->hStatusLabel->hide();
+  ui->vStatusLabel->hide();
 
 #ifdef ANDROID_OS
   resizeIcons();
@@ -58,6 +63,12 @@ MainWindow::MainWindow(
     SIGNAL(newWebcamName(QString)),
     this,
     SLOT(setWebcamName(QString)));
+
+  connect(
+    webcamImage,
+    SIGNAL(pauseDisplay()),
+    this,
+    SLOT(pauseViewer()));
 
   webcamImage->loadFirstImage();
 }
@@ -191,6 +202,7 @@ void MainWindow::on_vFullscreenButton_clicked()
   controlsHidden = true;
 }
 
+/*
 void MainWindow::on_vHomeButton_clicked()
 {
   webcamImage->openHomepage();
@@ -201,6 +213,7 @@ void MainWindow::on_hHomeButton_clicked()
 {
   webcamImage->openHomepage();
 }
+*/
 
 
 void MainWindow::on_hTagButton_clicked()
@@ -212,6 +225,18 @@ void MainWindow::on_hTagButton_clicked()
 void MainWindow::on_vTagButton_clicked()
 {
   webcamImage->filterByCategory();
+}
+
+
+void MainWindow::on_hPlayPauseButton_clicked()
+{
+  switchPlayPause();
+}
+
+
+void MainWindow::on_vPlayPauseButton_clicked()
+{
+  switchPlayPause();
 }
 
 
@@ -296,11 +321,11 @@ qDebug() << "Setting iconSize to " << iconSize;
   ui->hFullscreenButton->setIconSize(QSize(iconSize, iconSize));
   ui->hNextButton->setIconSize(QSize(iconSize, iconSize));
   ui->hPrevButton->setIconSize(QSize(iconSize, iconSize));
-  ui->hHomeButton->setIconSize(QSize(iconSize, iconSize));
+//  ui->hHomeButton->setIconSize(QSize(iconSize, iconSize));
   ui->vFullscreenButton->setIconSize(QSize(iconSize, iconSize));
   ui->vNextButton->setIconSize(QSize(iconSize, iconSize));
   ui->vPrevButton->setIconSize(QSize(iconSize, iconSize));
-  ui->vHomeButton->setIconSize(QSize(iconSize, iconSize));
+//  ui->vHomeButton->setIconSize(QSize(iconSize, iconSize));
 
   // Also, resize the dialogs:
   selectorDialog->resize(dialogWidth, dialogHeight);
@@ -308,3 +333,41 @@ qDebug() << "Setting iconSize to " << iconSize;
   infoDialog->resize(dialogWidth, dialogHeight);
 }
 #endif // ANDROID_OS
+
+
+void MainWindow::switchPlayPause()
+{
+  if (paused)
+  {
+    // Switch to playing:
+    webcamImage->exitSleepMode();
+
+    ui->hPlayPauseButton->setIcon(QIcon(":/icons/FetPause.svg"));
+    ui->vPlayPauseButton->setIcon(QIcon(":/icons/FetPause.svg"));
+    ui->hStatusLabel->hide();
+    ui->vStatusLabel->hide();
+    paused = false;
+  }
+  else
+  {
+    // Switch to paused:
+    webcamImage->enterSleepMode();
+
+    ui->hPlayPauseButton->setIcon(QIcon(":/icons/FetPlay.svg"));
+    ui->vPlayPauseButton->setIcon(QIcon(":/icons/FetPlay.svg"));
+    ui->hStatusLabel->show();
+    ui->vStatusLabel->show();
+    paused = true;
+  }
+}
+
+
+void MainWindow::pauseViewer()
+{
+  webcamImage->enterSleepMode();
+
+  ui->hPlayPauseButton->setIcon(QIcon(":/icons/FetPlay.svg"));
+  ui->vPlayPauseButton->setIcon(QIcon(":/icons/FetPlay.svg"));
+  ui->hStatusLabel->show();
+  ui->vStatusLabel->show();
+}

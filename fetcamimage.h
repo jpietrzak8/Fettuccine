@@ -80,8 +80,10 @@ public:
   void prevImage();
   void openHomepage();
 
+/*
   void sendMessage(
     QString message);
+*/
 
 public slots:
   void selectWebcam();
@@ -89,8 +91,12 @@ public slots:
   void displayWebcamInfo();
   void importWebcamList();
 
+  void enterSleepMode();
+  void exitSleepMode();
+
 signals:
   void newWebcamName(QString);
+  void pauseDisplay();
 
 protected:
   void resizeEvent(
@@ -107,9 +113,6 @@ private slots:
 
   void parseNetworkAccessibility(
     QNetworkAccessManager::NetworkAccessibility access);
-
-  void enterSleepMode();
-  void exitSleepMode();
 
   void performAuthentication(
     QNetworkReply *reply,
@@ -151,8 +154,10 @@ private:
 
   QNetworkAccessManager qnam;
   QNetworkReply *currentReply;
+  bool retrievalInProgress; // can ignore net issues when not retrieving data.
 
   QTimer timer;
+  bool paused;
 
   QString currentWebcamUrl;
   QString currentWebcamHomepage;
@@ -160,7 +165,6 @@ private:
   int currentTimerInterval;
   int numberOfRedirections;
   bool networkAccessible;
-  bool sleeping;
 
   FetAuthenticationDialog *authDialog;
 

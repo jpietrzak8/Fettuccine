@@ -66,15 +66,19 @@ private slots:
   void on_vPrevButton_clicked();
   void on_vNextButton_clicked();
   void on_vFullscreenButton_clicked();
-  void on_vHomeButton_clicked();
-  void on_hHomeButton_clicked();
+//  void on_vHomeButton_clicked();
+//  void on_hHomeButton_clicked();
   void on_hTagButton_clicked();
   void on_vTagButton_clicked();
+  void on_hPlayPauseButton_clicked();
+  void on_vPlayPauseButton_clicked();
   void on_closeAboutButton_clicked();
   void on_closeDocButton_clicked();
 
   void setWebcamName(
     QString name);
+
+  void pauseViewer();
 
 private:
   void returnToControls();
@@ -83,9 +87,12 @@ private:
   void resizeIcons();
 #endif // ANDROID_OS
 
+  void switchPlayPause();
+
   Ui::MainWindow *ui;
 
   bool controlsHidden;
+  bool paused;
 
   // Image management:
   FetCamImage *webcamImage;

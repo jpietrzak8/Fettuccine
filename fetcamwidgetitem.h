@@ -34,7 +34,9 @@ typedef QSet<QString> TagCollection;
 enum FetWebcamType
 {
   Static_Webcam,
-  MJpeg_Webcam
+  MJpegSampled_Webcam,
+  MJpegLooped_Webcam,
+  MJpegFull_Webcam
 };
 
 class FetCamWidgetItem: public QListWidgetItem

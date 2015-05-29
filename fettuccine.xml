@@ -455,8 +455,15 @@
  </webcam>
 
  <webcam
+  link="http://208.108.146.134/mjpg/video.mjpg"
+  webcamType="MJpeg_Full"
+  homepage="http://en.wikipedia.org/wiki/Painesville,_Ohio">
+  <name>Painesville, Ohio</name>
+ </webcam>
+
+ <webcam
   link="http://216.8.159.21/mjpg/video.mjpg"
-  webcamType="MJpeg"
+  webcamType="MJpeg_Looped"
   maxImages="10"
   slideshowDelay="1"
   homepage="http://216.8.159.21"
@@ -466,7 +473,7 @@
 
  <webcam
   link="http://76.10.86.11/mjpg/video.mjpg?camera=1"
-  webcamType="MJpeg"
+  webcamType="MJpeg_Sampled"
   homepage="http://76.10.86.11"
   refreshRate="1">
   <name>Devils Lake, North Dakota</name>

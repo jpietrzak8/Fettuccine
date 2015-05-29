@@ -1,3 +1,10 @@
+fettuccine (0.9.5) unstable; urgency=low
+  * Display of MJpeg webcams at full speed now supported.
+  * Added ability for user to pause/resume webcam display.
+  * Now deals better with lack of network access.  (This still needs more work, though.)
+
+ -- John Pietrzak <jpietrzak8@gmail.com>  Fri, 29 May 2015 18:55:36 -0400
+
 fettuccine (0.9.4) unstable; urgency=low
   * Added initial support for MJpeg webcams.  (This will need more work.)
 

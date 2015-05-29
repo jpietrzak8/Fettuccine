@@ -86,6 +86,16 @@
     </widget>
    </item>
    <item>
+    <widget class="QPushButton" name="statusButton">
+     <property name="text">
+      <string>Paused - Click to Resume</string>
+     </property>
+     <property name="flat">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item>
     <widget class="QLabel" name="nameLabel">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
