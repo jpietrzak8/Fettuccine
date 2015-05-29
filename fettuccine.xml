@@ -455,10 +455,28 @@
  </webcam>
 
  <webcam
-  link="http://images.intellicast.com/WxImages/RadarLoop/msy_None_anim.gif"
-  homepage="http://www.intellicast.com/National/Radar/Current.aspx?location=USAL0371&amp;animate=true"
-  refreshRate="300">
-  <name>Weather test</name>
+  link="http://208.108.146.134/mjpg/video.mjpg"
+  webcamType="MJpeg_Full"
+  homepage="http://en.wikipedia.org/wiki/Painesville,_Ohio">
+  <name>Painesville, Ohio</name>
+ </webcam>
+
+ <webcam
+  link="http://216.8.159.21/mjpg/video.mjpg"
+  webcamType="MJpeg_Looped"
+  maxImages="10"
+  slideshowDelay="1"
+  homepage="http://216.8.159.21"
+  refreshRate="30">
+  <name>Detroit - Windsor Tunnel</name>
+ </webcam>
+
+ <webcam
+  link="http://76.10.86.11/mjpg/video.mjpg?camera=1"
+  webcamType="MJpeg_Sampled"
+  homepage="http://76.10.86.11"
+  refreshRate="1">
+  <name>Devils Lake, North Dakota</name>
  </webcam>
 
 </fettuccine>
