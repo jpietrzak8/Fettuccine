@@ -1,15 +1,24 @@
 <fettuccine>
+
  <webcam
-  link="https://www.google.com/mail/help/images/logo1.gif"
-  homepage="https://www.google.com/mail"
-  refreshRate="3600">
-  <name>Google Test Image</name>
+  link="http://www.nps.gov/webcams-yell/oldfaithvc.jpg"
+  homepage="http://www.nps.gov/yell/photosmultimedia/webcams.htm"
+  refreshRate="30">
+  <name>Old Faithful, Yellowstone</name>
  </webcam>
 
  <webcam
-  link="http://test.webdav.org/auth-basic/"
-  homepage="http://test.webdav.org"
-  refreshRate="3600">
-  <name>Basic Authorization Test</name>
+  link="http://yates.duckdns.org:8969/picture/1/current/"
+  homepage="http://yates.duckdns.org:8969/picture/1/current/"
+  refreshRate="5">
+  <name>test1</name>
  </webcam>
+
+ <webcam
+  link="http://yates.duckdns.org:8969/picture/1/frame/"
+  homepage="http://yates.duckdns.org:8969/picture/1/frame/"
+  refreshRate="5">
+  <name>test2</name>
+ </webcam>
+
 </fettuccine>
